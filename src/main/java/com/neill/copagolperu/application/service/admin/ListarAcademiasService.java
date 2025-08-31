@@ -9,6 +9,7 @@ import java.util.List;
 
 @Service
 public class ListarAcademiasService {
+
     private final AcademiaRepository academiaRepository;
 
     public ListarAcademiasService(AcademiaRepository academiaRepository) {

@@ -12,18 +12,26 @@ public class Provincia {
     private Long id;
 
     @Column(nullable = false, length = 100)
-    private String nombre_provincia;
+    private String nombreProvincia;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_departamento", nullable = false)
     private Departamento departamento;
 
-    public String getNombre_provincia() {
-        return nombre_provincia;
+    public Long getId() {
+        return id;
     }
 
-    public void setNombre_provincia(String nombre_provincia) {
-        this.nombre_provincia = nombre_provincia;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNombreProvincia() {
+        return nombreProvincia;
+    }
+
+    public void setNombreProvincia(String nombreProvincia) {
+        this.nombreProvincia = nombreProvincia;
     }
 
     public Departamento getDepartamento() {

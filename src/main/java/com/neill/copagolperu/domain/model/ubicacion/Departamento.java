@@ -12,13 +12,21 @@ public class Departamento {
     private Long id;
 
     @Column(nullable = false, length = 100)
-    private String nombre_departamento;
+    private String nombre;
 
-    public String getNombre_departamento() {
-        return nombre_departamento;
+    public Long getId() {
+        return id;
     }
 
-    public void setNombre_departamento(String nombre_departamento) {
-        this.nombre_departamento = nombre_departamento;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 }

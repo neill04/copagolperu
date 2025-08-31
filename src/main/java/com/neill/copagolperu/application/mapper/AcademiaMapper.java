@@ -30,7 +30,7 @@ public class AcademiaMapper {
         academia.setNombreRepresentante(academiaDTO.getNombreRepresentante());
         academia.setDniRepresentante(academiaDTO.getDniRepresentante());
         academia.setLogoUrl(academiaDTO.getLogoUrl());
-        academia.setEstado(Academia.EstadoAcademia.valueOf(academiaDTO.getEstado()));
+        //academia.setEstado(Academia.EstadoAcademia.valueOf(academiaDTO.getEstado()));
         academia.setFechaRegistro(LocalDateTime.now());
         academia.setFechaActualizacion(LocalDateTime.now());
         return academia;

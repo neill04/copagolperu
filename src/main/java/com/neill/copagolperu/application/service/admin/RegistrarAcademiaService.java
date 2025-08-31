@@ -5,7 +5,7 @@ import com.neill.copagolperu.application.mapper.AcademiaMapper;
 import com.neill.copagolperu.domain.model.Academia;
 import com.neill.copagolperu.domain.model.ubicacion.Distrito;
 import com.neill.copagolperu.domain.repository.AcademiaRepository;
-import com.neill.copagolperu.domain.repository.DistritoRepository;
+import com.neill.copagolperu.domain.repository.ubicacion.DistritoRepository;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,6 +26,7 @@ public class RegistrarAcademiaService {
 
         Academia academia = AcademiaMapper.toEntity(dto);
         academia.setDistrito(distrito);
+        academia.setEstado(Academia.EstadoAcademia.valueOf("ACTIVO"));
 
         Academia academiaRegistrada = academiaRepository.save(academia);
 

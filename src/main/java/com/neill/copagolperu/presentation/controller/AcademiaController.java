@@ -5,7 +5,6 @@ import com.neill.copagolperu.application.service.admin.BuscarAcademiaService;
 import com.neill.copagolperu.application.service.admin.EditarAcademiaService;
 import com.neill.copagolperu.application.service.admin.ListarAcademiasService;
 import com.neill.copagolperu.application.service.admin.RegistrarAcademiaService;
-import com.neill.copagolperu.domain.model.Academia;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
