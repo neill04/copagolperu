@@ -6,13 +6,19 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public class JpaAcademiaRepository implements AcademiaRepository {
 
     private final SpringDataAcademiaRepository jpa;
+    private final SpringDataEquipoRepository EquipoJpa;
 
-    public JpaAcademiaRepository(SpringDataAcademiaRepository jpa) { this.jpa = jpa; }
+    public JpaAcademiaRepository(SpringDataAcademiaRepository jpa,
+                                 SpringDataEquipoRepository EquipoJpa) {
+        this.jpa = jpa;
+        this.EquipoJpa = EquipoJpa;
+    }
 
     @Override
     public Academia save(Academia academia) {
@@ -20,7 +26,7 @@ public class JpaAcademiaRepository implements AcademiaRepository {
     }
 
     @Override
-    public Optional<Academia> findById(Long id) {
+    public Optional<Academia> findById(UUID id) {
         return jpa.findById(id);
     }
 
@@ -30,7 +36,7 @@ public class JpaAcademiaRepository implements AcademiaRepository {
     }
 
     @Override
-    public void deleteById(Long id) {
-        jpa.deleteById(id);
+    public long countTeamsByAcademia(UUID id) {
+        return EquipoJpa.countByAcademiaId(id);
     }
 }

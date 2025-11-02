@@ -2,15 +2,25 @@ package com.neill.copagolperu.domain.model;
 
 import com.neill.copagolperu.domain.model.ubicacion.Distrito;
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import lombok.*;
+import org.hibernate.annotations.UuidGenerator;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "academias")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Academia {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @UuidGenerator(style = UuidGenerator.Style.AUTO)
+    private UUID id;
 
     @Column(nullable = false, length = 100)
     private String nombreAcademia;
@@ -18,103 +28,28 @@ public class Academia {
     @Column(nullable = false, length = 100)
     private String nombreRepresentante;
 
-    @Column(nullable = false, length = 8)
+    @Column(nullable = false, unique = true, length = 8)
     private String dniRepresentante;
+
+    @Column(nullable = false, length = 9)
+    private String telefonoRepresentante;
 
     @Column(nullable = true, length = 100)
     private String logoUrl;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private EstadoAcademia estado = EstadoAcademia.ACTIVO;
+    private Boolean activo;
 
     @Column(nullable = false, updatable = false)
-    private LocalDateTime fechaRegistro;
+    private LocalDate fechaRegistro;
 
     @Column(nullable = false)
-    private LocalDateTime fechaActualizacion;
+    private LocalDate fechaActualizacion;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_distrito", nullable = false)
     private Distrito distrito;
 
-    public enum EstadoAcademia {
-        ACTIVO,
-        DESACTIVO
-    }
-
-    // Constructor para jpa
-    public Academia() {}
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNombreAcademia() {
-        return nombreAcademia;
-    }
-
-    public void setNombreAcademia(String nombreAcademia) {
-        this.nombreAcademia = nombreAcademia;
-    }
-
-    public String getNombreRepresentante() {
-        return nombreRepresentante;
-    }
-
-    public void setNombreRepresentante(String nombreRepresentante) {
-        this.nombreRepresentante = nombreRepresentante;
-    }
-
-    public String getDniRepresentante() {
-        return dniRepresentante;
-    }
-
-    public void setDniRepresentante(String dniRepresentante) {
-        this.dniRepresentante = dniRepresentante;
-    }
-
-    public String getLogoUrl() {
-        return logoUrl;
-    }
-
-    public void setLogoUrl(String logoUrl) {
-        this.logoUrl = logoUrl;
-    }
-
-    public EstadoAcademia getEstado() {
-        return estado;
-    }
-
-    public void setEstado(EstadoAcademia estado) {
-        this.estado = estado;
-    }
-
-    public LocalDateTime getFechaRegistro() {
-        return fechaRegistro;
-    }
-
-    public void setFechaRegistro(LocalDateTime fechaRegistro) {
-        this.fechaRegistro = fechaRegistro;
-    }
-
-    public LocalDateTime getFechaActualizacion() {
-        return fechaActualizacion;
-    }
-
-    public void setFechaActualizacion(LocalDateTime fechaActualizacion) {
-        this.fechaActualizacion = fechaActualizacion;
-    }
-
-    public Distrito getDistrito() {
-        return distrito;
-    }
-
-    public void setDistrito(Distrito distrito) {
-        this.distrito = distrito;
-    }
+    @OneToMany(mappedBy = "academia", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Equipo> equipos;
 }

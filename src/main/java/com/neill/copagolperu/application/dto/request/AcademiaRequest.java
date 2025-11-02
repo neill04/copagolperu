@@ -1,0 +1,10 @@
+package com.neill.copagolperu.application.dto.request;
+
+public record AcademiaRequest(
+        String nombreAcademia,
+        String nombreRepresentante,
+        String dniRepresentante,
+        String telefonoRepresentante,
+        String logoUrl,
+        Long distritoId
+) {}

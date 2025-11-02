@@ -6,7 +6,7 @@ public class AuthCookieConstants {
     }
     public static final String TOKEN_COOKIE_NAME = "auth-token";
     public static final boolean HTTP_ONLY = true;
-    public static final boolean COOKIE_SECURE = true;
-    public static final int COOKIE_MAX_AGE = 60 * 12;
-    public static final String SAME_SITE = "Strict";
+    public static final boolean COOKIE_SECURE = false;
+    public static final int COOKIE_MAX_AGE = 60 * 120;
+    public static final String SAME_SITE = "None";
 }

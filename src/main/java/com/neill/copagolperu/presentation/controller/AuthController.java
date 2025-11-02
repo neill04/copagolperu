@@ -9,10 +9,8 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(ApiConfig.API_BASE_PATH + "/auth")
@@ -21,6 +19,14 @@ public class AuthController {
 
     public AuthController(AuthService authService) {
         this.authService = authService;
+    }
+
+    @GetMapping("/check")
+    public ResponseEntity<Void> checkAuth(@CookieValue(name = AuthCookieConstants.TOKEN_COOKIE_NAME, required = false) String token) {
+        if (token == null || !authService.validateToken(token)) {
+            return ResponseEntity.status(401).build();
+        }
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping
@@ -38,7 +44,13 @@ public class AuthController {
     @PostMapping("/logout")
     public void logout(HttpServletResponse response) {
         final Cookie cookie = new Cookie(AuthCookieConstants.TOKEN_COOKIE_NAME, StringUtils.EMPTY);
+        /*
+        cookie.setHttpOnly(AuthCookieConstants.HTTP_ONLY);
+        cookie.setSecure(AuthCookieConstants.COOKIE_SECURE);
+        cookie.setPath("/");
+        */
         cookie.setMaxAge(0);
+        //response.addCookie(cookie);
     }
 
     private Cookie createAuthCookie(String token) {
