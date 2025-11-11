@@ -2,12 +2,10 @@ package com.neill.copagolperu.presentation.controller;
 
 import com.neill.copagolperu.application.dto.request.JugadorRequest;
 import com.neill.copagolperu.application.dto.response.JugadorResponse;
-import com.neill.copagolperu.application.service.academia.jugador.BuscarJugadorService;
-import com.neill.copagolperu.application.service.academia.jugador.EditarJugadorService;
-import com.neill.copagolperu.application.service.academia.jugador.ListarJugadoresPorEquipoService;
-import com.neill.copagolperu.application.service.academia.jugador.RegistrarJugadorService;
+import com.neill.copagolperu.application.service.academia.jugador.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,14 +30,16 @@ public class JugadorController {
         this.listarJugadoresPorEquipoService = listarJugadoresPorEquipoService;
     }
 
+    @PreAuthorize("@academiaSecurity.canAccessAcademy(authentication, #academiaId)")
     @PostMapping
-    public ResponseEntity<JugadorResponse> registrarJugador(@PathVariable UUID equipoId, @RequestBody JugadorRequest request) {
+    public ResponseEntity<JugadorResponse> registrarJugador(@PathVariable UUID academiaId, @PathVariable UUID equipoId, @RequestBody JugadorRequest request) {
         JugadorResponse newJugador = registrarJugadorService.registrarJugador(equipoId, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(newJugador);
     }
 
+    @PreAuthorize("@academiaSecurity.canAccessAcademy(authentication, #academiaId)")
     @PutMapping("/{id}")
-    public ResponseEntity<JugadorResponse> editarJugador(@PathVariable UUID id, @RequestBody JugadorRequest request) {
+    public ResponseEntity<JugadorResponse> editarJugador(@PathVariable UUID academiaId, @PathVariable UUID id, @RequestBody JugadorRequest request) {
         try {
             JugadorResponse updatedJugador = editarJugadorService.editarJugador(id, request);
             return ResponseEntity.status(HttpStatus.OK).body(updatedJugador);
@@ -48,14 +48,16 @@ public class JugadorController {
         }
     }
 
+    @PreAuthorize("@academiaSecurity.canAccessAcademy(authentication, #academiaId)")
     @GetMapping("/{id}")
-    public ResponseEntity<JugadorResponse> buscarJugador(@PathVariable UUID id) {
+    public ResponseEntity<JugadorResponse> buscarJugador(@PathVariable UUID academiaId, @PathVariable UUID id) {
         Optional<JugadorResponse> jugador = buscarJugadorService.buscarJugador(id);
         return jugador.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("@academiaSecurity.canAccessAcademy(authentication, #academiaId)")
     @GetMapping
-    public ResponseEntity<List<JugadorResponse>> listarJugadoresPorEquipo(@PathVariable UUID equipoId) {
+    public ResponseEntity<List<JugadorResponse>> listarJugadoresPorEquipo(@PathVariable UUID academiaId, @PathVariable UUID equipoId) {
         return ResponseEntity.ok(listarJugadoresPorEquipoService.listarJugadoresPorEquipo(equipoId));
     }
 }

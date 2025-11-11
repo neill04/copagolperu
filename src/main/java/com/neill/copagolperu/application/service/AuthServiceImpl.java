@@ -1,16 +1,20 @@
 package com.neill.copagolperu.application.service;
 
-import com.neill.copagolperu.application.dto.CreateUserDTO;
-import com.neill.copagolperu.application.dto.LoginRequestDTO;
+import com.neill.copagolperu.application.dto.request.LoginRequest;
+import com.neill.copagolperu.application.dto.request.UserRequest;
+import com.neill.copagolperu.application.dto.response.LoginResponse;
 import com.neill.copagolperu.application.mapper.AuthMapper;
+import com.neill.copagolperu.application.mapper.UserMapper;
 import com.neill.copagolperu.domain.model.User;
 import com.neill.copagolperu.domain.repository.UserRepository;
 import com.neill.copagolperu.domain.service.TokenService_;
 import com.neill.copagolperu.domain.service.AuthService;
 import com.neill.copagolperu.infrastructure.exceptions.FincasErrorMessage;
 import com.neill.copagolperu.infrastructure.exceptions.FincasException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderNotFoundException;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -21,12 +25,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class AuthServiceImpl implements AuthService, UserDetailsService {
-    private static final Logger logger = LogManager.getLogger(AuthServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(AuthServiceImpl.class);
+
+    @Value("${application.security.jwt.expiration:7200}")
+    private long jwtExpiration;
 
     private final UserRepository userRepository;
     private final TokenService_ tokenService;
@@ -37,7 +43,7 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
             UserRepository userRepository,
             TokenService_ tokenService,
             PasswordEncoder passwordEncoder,
-            AuthenticationConfiguration authenticationConfiguration
+            @Lazy AuthenticationConfiguration authenticationConfiguration
     ) {
         this.userRepository = userRepository;
         this.tokenService = tokenService;
@@ -46,11 +52,11 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
     }
 
     @Override
-    public void createUser(final CreateUserDTO createUserDTO) {
-        final User createUser = AuthMapper.fromDTO(createUserDTO);
-        createUser.setPassword(passwordEncoder.encode(createUserDTO.password()));
+    public void createUser(final UserRequest request) {
+        final User createUser = AuthMapper.fromDTO(request);
+        createUser.setPassword(passwordEncoder.encode(request.password()));
         final User user = userRepository.save(createUser);
-        logger.info("[USER] : User successfully created");
+        logger.info("[USER] : User successfully created: {}", user.getUsername());
     }
 
     @Override
@@ -63,16 +69,44 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
     }
 
     @Override
-    public String login(final LoginRequestDTO loginRequest) {
+    public LoginResponse login(final LoginRequest loginRequest) {
         try {
+            logger.info("[AUTH] Login attempt for user: {}", loginRequest.username());
+
             final AuthenticationManager authenticationManager = authenticationConfiguration.getAuthenticationManager();
             final Authentication authRequest = AuthMapper.fromDTO(loginRequest);
             final Authentication authentication = authenticationManager.authenticate(authRequest);
-            return tokenService.generateToken(authentication);
+
+            String token = tokenService.generateToken(authentication);
+
+            User user = (User) authentication.getPrincipal();
+
+            logger.info("[AUTH] Login succesful for user: {}", user.getUsername());
+
+            return new LoginResponse(
+                    token,
+                    "Bearer",
+                    jwtExpiration,
+                    UserMapper.toUserInfo(user)
+            );
+
         } catch (Exception e) {
-            logger.error("[USER] : Error while trying to login", e);
-            throw new ProviderNotFoundException("Error while trying to login");
+            logger.error("[USER] : Error during login for user: {}", loginRequest.username(), e);
+            throw new ProviderNotFoundException("Invalid credentials");
         }
+    }
+
+    @Override
+    public LoginResponse getUserInfo(String username) {
+        logger.debug("[AUTH] Getting user info for: {}", username);
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> {
+                    logger.error("[AUTH] User not found with username: {}", username);
+                    return new UsernameNotFoundException("User not found with username: " + username);
+                });
+
+        return UserMapper.toResponse(user);
     }
 
     @Override
@@ -86,10 +120,21 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(final String username) {
-        return userRepository.findByEmail(username)
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username)
                 .orElseThrow(() -> {
-                    logger.error("[USER] : User not found with email {}", username);
+                    logger.error("[USER] User not found with username: {}", username);
+                    return new UsernameNotFoundException("User not found");
+                });
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        logger.debug("[AUTH] Loading user by username: {}", username);
+
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> {
+                    logger.error("[USER] : User not found with username {}", username);
                     return new UsernameNotFoundException("User not found");
                 });
     }

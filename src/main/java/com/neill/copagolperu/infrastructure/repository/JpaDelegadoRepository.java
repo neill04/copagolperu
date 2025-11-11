@@ -31,4 +31,9 @@ public class JpaDelegadoRepository implements DelegadoRepository {
     public List<Delegado> findByAcademiaId(UUID idAcademia) {
         return jpa.findByAcademiaId(idAcademia);
     }
+
+    @Override
+    public List<Delegado> findAll() {
+        return jpa.findAll();
+    }
 }

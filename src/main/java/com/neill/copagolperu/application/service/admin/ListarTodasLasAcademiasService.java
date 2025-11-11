@@ -8,15 +8,15 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ListarAcademiasService {
+public class ListarTodasLasAcademiasService {
 
     private final AcademiaRepository academiaRepository;
 
-    public ListarAcademiasService(AcademiaRepository academiaRepository) {
+    public ListarTodasLasAcademiasService(AcademiaRepository academiaRepository) {
         this.academiaRepository = academiaRepository;
     }
 
-    public List<AcademiaResponse> listarAcademias() {
+    public List<AcademiaResponse> listarTodasLasAcademias() {
         return academiaRepository.findAll()
                 .stream()
                 .map(AcademiaMapper::toResponse)

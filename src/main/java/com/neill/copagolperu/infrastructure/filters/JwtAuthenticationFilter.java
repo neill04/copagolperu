@@ -1,96 +1,96 @@
 package com.neill.copagolperu.infrastructure.filters;
 
-import com.neill.copagolperu.application.AuthCookieConstants;
-import com.neill.copagolperu.domain.service.AuthService;
-//import com.neill.copagolperu.infrastructure.configuration.SecurityConfig;
+import com.neill.copagolperu.domain.service.TokenService_;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.constraints.NotNull;
-import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-//import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Optional;
 
+@Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
-    private final AuthService authService;
+
+    private final TokenService_ tokenService;
     private final UserDetailsService userDetailsService;
 
-    public JwtAuthenticationFilter(AuthService authService, UserDetailsService userDetailsService) {
-        this.authService = authService;
+    public JwtAuthenticationFilter(TokenService_ tokenService,
+                                   UserDetailsService userDetailsService) {
+        this.tokenService = tokenService;
         this.userDetailsService = userDetailsService;
     }
 
     @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        String path = request.getRequestURI();
-        return path.equals("/api/auth") || path.equals("/api/auth/login");
-        /*
-        final String requestURI = request.getRequestURI();
-        return requestURI.equals(SecurityConfig.LOGIN_URL_MATCHER);
-         */
-    }
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException {
 
-    @Override
-    protected void doFilterInternal(@NotNull HttpServletRequest request,
-                                    @NotNull HttpServletResponse response,
-                                    @NotNull FilterChain filterChain) throws ServletException, IOException {
+        try {
+            final String authHeader = request.getHeader("Authorization");
 
-        final Optional<String> token = getJwtFromCookie(request);
-        System.out.println("Token en cookie: " + token.orElse("NO TOKEN"));
+            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+                filterChain.doFilter(request, response);
+                return;
+            }
 
-        if (token.isEmpty() || !authService.validateToken(token.get())) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return;
+            // Extraer token (quitar "Bearer ")
+            final String jwt = authHeader.substring(7);
+
+            logger.debug("[JWT] Token extraído del header Authorization");
+
+            // Validar token
+            if (!tokenService.validateToken(jwt)) {
+                logger.warn("[JWT] Token inválido o expirado");
+                filterChain.doFilter(request, response);
+                return;
+            }
+
+            // Extraer username del token
+            final String username = tokenService.getUserFromToken(jwt);
+            logger.debug("[JWT] Username extraído del token: {}", username);
+
+            // Si ya está autenticado, no hacer nada
+            if (SecurityContextHolder.getContext().getAuthentication() != null) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+
+            // Cargar usuario desde la base de datos
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            logger.debug("[JWT] UserDetails cargado: {}", userDetails.getUsername());
+
+            // Crear authentication token
+            UsernamePasswordAuthenticationToken authToken =
+                    new UsernamePasswordAuthenticationToken(
+                            userDetails,
+                            null,
+                            userDetails.getAuthorities()
+                    );
+            authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+            // Establecer autenticación en el contexto
+            SecurityContextHolder.getContext().setAuthentication(authToken);
+
+            logger.debug("[JWT] Usuario autenticado: {} con rol: {}",
+                    username,
+                    userDetails.getAuthorities()
+            );
+
+        } catch (Exception e) {
+            logger.error("[JWT] Error procesando token", e);
         }
-
-        String userName = authService.getUserFromToken(token.get());
-        System.out.println("Username extraído del token: " + userName);
-
-        UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
-        System.out.println("UserDetails encontrado: " + (userDetails != null));
-
-        if (userDetails == null) {
-            System.out.println("No se encontró el usuario, devolviendo 401...");
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return;
-        }
-
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-        authenticationToken.setDetails(userDetails);
-        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-
-        // Log temporal
-        System.out.println("Usuario autenticado: " + userDetails.getUsername());
-        userDetails.getAuthorities().forEach(a ->
-                System.out.println("Authority: " + a.getAuthority())
-        );
 
         filterChain.doFilter(request, response);
-    }
-
-    private Optional<String> getJwtFromCookie(HttpServletRequest request) {
-        final Cookie[] cookies = request.getCookies();
-        if (cookies == null || ArrayUtils.isEmpty(cookies)) {
-            return Optional.empty();
-        }
-        return (Arrays.stream(cookies)
-                .filter(cookie -> cookie.getName().equals(AuthCookieConstants.TOKEN_COOKIE_NAME))
-                .map(Cookie::getValue)
-                .findFirst());
     }
 }

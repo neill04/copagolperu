@@ -18,7 +18,8 @@ public class AcademiaMapper {
                 academia.getActivo(),
                 academia.getFechaRegistro(),
                 academia.getFechaActualizacion(),
-                academia.getDistrito().getNombreDistrito()
+                academia.getDistrito().getNombreDistrito(),
+                academia.getEquipos().size()
         );
     }
 

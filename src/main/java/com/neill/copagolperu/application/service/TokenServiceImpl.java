@@ -41,7 +41,7 @@ public class TokenServiceImpl implements TokenService_ {
 
         User currentUser = (User) authentication.getPrincipal();
         JwtClaimsSet claims = JwtClaimsSet.builder()
-                .subject(currentUser.getEmail())
+                .subject(currentUser.getUsername())
                 .issuedAt(now)
                 .expiresAt(now.plus(jwtExpiration, ChronoUnit.MINUTES))
                 .build();

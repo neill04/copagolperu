@@ -16,6 +16,7 @@ public record EquipoResponse(
 
         UUID academiaId,
         String nombreAcademia,
+        String logoUrlAcademia,
 
         UUID entrenadorId,
         String apellidosEntrenador,

@@ -10,4 +10,5 @@ public interface DelegadoRepository {
     Delegado save(Delegado delegado);
     Optional<Delegado> findById(UUID id);
     List<Delegado> findByAcademiaId(UUID academiaId);
+    List<Delegado> findAll();
 }

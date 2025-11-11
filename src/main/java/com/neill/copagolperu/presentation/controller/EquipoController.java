@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -27,7 +28,8 @@ public class EquipoController {
     public EquipoController(RegistrarEquipoService registrarEquipoService,
                             EditarEquipoService editarEquipoService,
                             BuscarEquipoService buscarEquipoService,
-                            ListarEquiposPorAcademiaService listarEquiposPorAcademiaService, GenerarPlanillaService generarPlanillaService) {
+                            ListarEquiposPorAcademiaService listarEquiposPorAcademiaService,
+                            GenerarPlanillaService generarPlanillaService) {
         this.registrarEquipoService = registrarEquipoService;
         this.editarEquipoService = editarEquipoService;
         this.buscarEquipoService = buscarEquipoService;
@@ -35,14 +37,16 @@ public class EquipoController {
         this.generarPlanillaService = generarPlanillaService;
     }
 
+    @PreAuthorize("@academiaSecurity.canAccessAcademy(authentication, #academiaId)")
     @PostMapping
     public ResponseEntity<EquipoResponse> registrarEquipo(@PathVariable UUID academiaId, @Valid @RequestBody EquipoRequest request) {
         EquipoResponse newEquipo = registrarEquipoService.registrarEquipo(academiaId, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(newEquipo);
     }
 
+    @PreAuthorize("@academiaSecurity.canAccessAcademy(authentication, #academiaId)")
     @PutMapping("/{id}")
-    public ResponseEntity<EquipoResponse> editarEquipo(@PathVariable UUID id, @Valid @RequestBody EquipoRequest request) {
+    public ResponseEntity<EquipoResponse> editarEquipo(@PathVariable UUID academiaId, @PathVariable UUID id, @Valid @RequestBody EquipoRequest request) {
         try {
             EquipoResponse updatedEquipo = editarEquipoService.editarEquipo(id, request);
             return ResponseEntity.ok(updatedEquipo);
@@ -51,17 +55,20 @@ public class EquipoController {
         }
     }
 
+    @PreAuthorize("@academiaSecurity.canAccessAcademy(authentication, #academiaId)")
     @GetMapping("/{id}")
-    public ResponseEntity<EquipoResponse> buscarEquipo(@PathVariable UUID id) {
+    public ResponseEntity<EquipoResponse> buscarEquipo(@PathVariable UUID academiaId, @PathVariable UUID id) {
         Optional<EquipoResponse> equipo = buscarEquipoService.buscarEquipo(id);
         return equipo.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("@academiaSecurity.canAccessAcademy(authentication, #academiaId)")
     @GetMapping
     public ResponseEntity<List<EquipoResponse>> listarEquiposPorAcademia(@PathVariable UUID academiaId) {
         return ResponseEntity.ok(listarEquiposPorAcademiaService.listarEquiposPorAcademia(academiaId));
     }
 
+    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
     @GetMapping("/{id}/planilla")
     public ResponseEntity<byte[]> exportarPlanilla(@PathVariable UUID id) throws IOException {
         byte[] excelBytes = generarPlanillaService.generarPlanillaExcel(id);

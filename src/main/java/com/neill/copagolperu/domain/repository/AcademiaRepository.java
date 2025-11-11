@@ -9,6 +9,5 @@ public interface AcademiaRepository {
     Academia save(Academia academia);
     Optional<Academia> findById(UUID id);
     List<Academia> findAll();
-    long countTeamsByAcademia(UUID id);
 }
 

@@ -31,4 +31,9 @@ public class JpaEntrenadorRepository implements EntrenadorRepository {
     public List<Entrenador> findByAcademiaId(UUID idAcademia) {
         return jpa.findByAcademiaId(idAcademia);
     }
+
+    @Override
+    public List<Entrenador> findAll() {
+        return jpa.findAll();
+    }
 }

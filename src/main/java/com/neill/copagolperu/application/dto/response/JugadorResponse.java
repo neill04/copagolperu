@@ -12,7 +12,9 @@ public record JugadorResponse(
         String fotoUrl,
         Boolean activo,
 
+        String nombreAcademia,
         UUID equipoId,
+        String categoriaEquipo,
 
         UUID apoderadoId,
         String dniApoderado,

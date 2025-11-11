@@ -21,6 +21,7 @@ public class EquipoMapper {
                 // Datos de la Academia
                 equipo.getAcademia().getId(),
                 equipo.getAcademia().getNombreAcademia(),
+                equipo.getAcademia().getLogoUrl(),
 
                 // Datos del Entrenador
                 equipo.getEntrenador().getId(),

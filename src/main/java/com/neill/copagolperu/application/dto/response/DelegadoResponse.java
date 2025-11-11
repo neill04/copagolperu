@@ -12,6 +12,7 @@ public record DelegadoResponse(
         String telefono,
         String email,
         String fotoUrl,
+        String nombreAcademia,
         LocalDate fechaRegistro,
         LocalDate fechaActualizacion
 ) {}

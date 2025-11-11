@@ -2,9 +2,12 @@ package com.neill.copagolperu.application.service.academia.jugador;
 
 import com.neill.copagolperu.application.dto.request.JugadorRequest;
 import com.neill.copagolperu.application.dto.response.JugadorResponse;
+import com.neill.copagolperu.application.exception.EdadNoPermitidaException;
+import com.neill.copagolperu.application.exception.JugadorYaRegistradoException;
 import com.neill.copagolperu.application.mapper.ApoderadoMapper;
 import com.neill.copagolperu.application.mapper.JugadorMapper;
 import com.neill.copagolperu.domain.model.Apoderado;
+import com.neill.copagolperu.domain.model.Categoria;
 import com.neill.copagolperu.domain.model.Equipo;
 import com.neill.copagolperu.domain.model.Jugador;
 import com.neill.copagolperu.domain.repository.ApoderadoRepository;
@@ -34,6 +37,8 @@ public class RegistrarJugadorService {
         Equipo equipo = equipoRepository.findById(equipoId)
                 .orElseThrow(() -> new RuntimeException("Equipo not found"));
 
+        validarEdadParaCategoria(request.fechaNacimiento(), equipo.getCategoria(), request.dni());
+
         Apoderado apoderado = null;
 
         if(request.apoderadoId() != null) {
@@ -46,6 +51,10 @@ public class RegistrarJugadorService {
             throw new RuntimeException("Debe de enviar el apoderadoId o apoderado");
         }
 
+        if (jugadorRepository.existsByDniAndActivoTrue(request.dni())) {
+            throw new JugadorYaRegistradoException(request.dni());
+        }
+
         Jugador jugador = JugadorMapper.toEntity(request);
         jugador.setActivo(true);
         jugador.setEquipo(equipo);
@@ -56,5 +65,16 @@ public class RegistrarJugadorService {
         Jugador newJugador = jugadorRepository.save(jugador);
 
         return JugadorMapper.toResponse(newJugador);
+    }
+
+    private void validarEdadParaCategoria(LocalDate fechaNacimiento, Categoria categoria, String dni) {
+        if (fechaNacimiento == null) {
+            throw new IllegalArgumentException("La fecha de nacimiento es requerida");
+        }
+
+        if (!categoria.esFechaNacimientoValida(fechaNacimiento)) {
+            int edadJugador = Categoria.calcularEdad(fechaNacimiento);
+            throw new EdadNoPermitidaException(dni, fechaNacimiento, categoria, edadJugador);
+        }
     }
 }

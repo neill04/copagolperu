@@ -13,5 +13,6 @@ public record  AcademiaResponse(
         Boolean activo,
         LocalDate fechaRegistro,
         LocalDate fechaActualizacion,
-        String nombreDistrito
+        String nombreDistrito,
+        int totalEquipos
 ) {}

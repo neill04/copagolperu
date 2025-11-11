@@ -10,4 +10,5 @@ public interface EntrenadorRepository {
     Entrenador save(Entrenador entrenador);
     Optional<Entrenador> findById(UUID id);
     List<Entrenador> findByAcademiaId(UUID idAcademia);
+    List<Entrenador> findAll();
 }

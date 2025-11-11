@@ -8,4 +8,6 @@ import java.util.UUID;
 
 public interface SpringDataJugadorRepository extends JpaRepository<Jugador, UUID> {
     List<Jugador> findByEquipoId(UUID equipoId);
+
+    boolean existsByDniAndActivoTrue(String dni);
 }

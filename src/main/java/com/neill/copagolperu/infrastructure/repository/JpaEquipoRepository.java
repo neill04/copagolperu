@@ -32,4 +32,8 @@ public class JpaEquipoRepository implements EquipoRepository {
         return jpa.findByAcademiaId(idAcademia);
     }
 
+    @Override
+    public List<Equipo> findAll() {
+        return jpa.findAll();
+    }
 }

@@ -31,4 +31,14 @@ public class JpaJugadorRepository implements JugadorRepository {
     public List<Jugador> findByEquipoId(UUID equipoId) {
         return jpa.findByEquipoId(equipoId);
     }
+
+    @Override
+    public List<Jugador> findAll() {
+        return jpa.findAll();
+    }
+
+    @Override
+    public boolean existsByDniAndActivoTrue(String dni) {
+        return jpa.existsByDniAndActivoTrue(dni);
+    }
 }

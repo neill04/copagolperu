@@ -17,6 +17,7 @@ public class DelegadoMapper {
                 delegado.getTelefono(),
                 delegado.getEmail(),
                 delegado.getFotoUrl(),
+                delegado.getAcademia().getNombreAcademia(),
                 delegado.getFechaRegistro(),
                 delegado.getFechaActualizacion()
         );

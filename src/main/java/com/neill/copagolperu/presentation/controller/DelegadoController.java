@@ -2,11 +2,9 @@ package com.neill.copagolperu.presentation.controller;
 
 import com.neill.copagolperu.application.dto.request.DelegadoRequest;
 import com.neill.copagolperu.application.dto.response.DelegadoResponse;
-import com.neill.copagolperu.application.service.academia.delegado.BuscarDelegadoService;
-import com.neill.copagolperu.application.service.academia.delegado.EditarDelegadoService;
-import com.neill.copagolperu.application.service.academia.delegado.ListarDelegadosPorAcademiaService;
-import com.neill.copagolperu.application.service.academia.delegado.RegistrarDelegadoService;
+import com.neill.copagolperu.application.service.academia.delegado.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,14 +29,16 @@ public class DelegadoController {
         this.listarDelegadosPorAcademiaService = listarDelegadosPorAcademiaService;
     }
 
+    @PreAuthorize("@academiaSecurity.canAccessAcademy(authentication, #academiaId)")
     @PostMapping
     public ResponseEntity<DelegadoResponse> registrarDelegado(@PathVariable UUID academiaId, @RequestBody DelegadoRequest request) {
         DelegadoResponse newDelegado = registrarDelegadoService.registrarDelegado(academiaId, request);
         return ResponseEntity.ok(newDelegado);
     }
 
+    @PreAuthorize("@academiaSecurity.canAccessAcademy(authentication, #academiaId)")
     @PutMapping("/{id}")
-    public ResponseEntity<DelegadoResponse> editarDelegado(@PathVariable UUID id, @RequestBody DelegadoRequest request) {
+    public ResponseEntity<DelegadoResponse> editarDelegado(@PathVariable UUID academiaId, @PathVariable UUID id, @RequestBody DelegadoRequest request) {
         try {
             DelegadoResponse updatedDelegado = editarDelegadoService.editarDelegado(id, request);
             return ResponseEntity.ok(updatedDelegado);
@@ -47,12 +47,14 @@ public class DelegadoController {
         }
     }
 
+    @PreAuthorize("@academiaSecurity.canAccessAcademy(authentication, #academiaId)")
     @GetMapping("/{id}")
-    public ResponseEntity<DelegadoResponse> buscarDelegado(@PathVariable UUID id) {
+    public ResponseEntity<DelegadoResponse> buscarDelegado(@PathVariable UUID academiaId, @PathVariable UUID id) {
         Optional<DelegadoResponse> delegado = buscarDelegadoService.buscarDelegado(id);
         return delegado.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("@academiaSecurity.canAccessAcademy(authentication, #academiaId)")
     @GetMapping
     public ResponseEntity<List<DelegadoResponse>> listarDelegadosPorAcademia(@PathVariable UUID academiaId) {
         return ResponseEntity.ok(listarDelegadosPorAcademiaService.listarDelegadosPorAcademia(academiaId));

@@ -51,6 +51,4 @@ public class Jugador {
 
     @Column(nullable = false)
     private Boolean activo;
-
-
 }

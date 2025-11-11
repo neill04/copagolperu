@@ -12,12 +12,9 @@ import java.util.UUID;
 public class JpaAcademiaRepository implements AcademiaRepository {
 
     private final SpringDataAcademiaRepository jpa;
-    private final SpringDataEquipoRepository EquipoJpa;
 
-    public JpaAcademiaRepository(SpringDataAcademiaRepository jpa,
-                                 SpringDataEquipoRepository EquipoJpa) {
+    public JpaAcademiaRepository(SpringDataAcademiaRepository jpa) {
         this.jpa = jpa;
-        this.EquipoJpa = EquipoJpa;
     }
 
     @Override
@@ -33,10 +30,5 @@ public class JpaAcademiaRepository implements AcademiaRepository {
     @Override
     public List<Academia> findAll() {
         return jpa.findAll();
-    }
-
-    @Override
-    public long countTeamsByAcademia(UUID id) {
-        return EquipoJpa.countByAcademiaId(id);
     }
 }
