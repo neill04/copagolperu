@@ -1,3 +1,4 @@
+/*
 package com.neill.copagolperu.application.service.academia.apoderado;
 
 import com.neill.copagolperu.application.dto.response.ApoderadoResponse;
@@ -22,3 +23,4 @@ public class BuscarApoderadoService {
                 .map(ApoderadoMapper::toResponse);
     }
 }
+*/

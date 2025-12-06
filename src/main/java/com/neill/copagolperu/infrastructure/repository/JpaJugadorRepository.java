@@ -33,6 +33,11 @@ public class JpaJugadorRepository implements JugadorRepository {
     }
 
     @Override
+    public List<Jugador> findByEquipo_Academia_Id(UUID academiaId) {
+        return jpa.findByEquipo_Academia_Id(academiaId);
+    }
+
+    @Override
     public List<Jugador> findAll() {
         return jpa.findAll();
     }

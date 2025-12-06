@@ -10,6 +10,7 @@ public interface JugadorRepository {
     Jugador save(Jugador jugador);
     Optional<Jugador> findById(UUID id);
     List<Jugador> findByEquipoId(UUID equipoId);
+    List<Jugador> findByEquipo_Academia_Id(UUID academiaId);
     List<Jugador> findAll();
     boolean existsByDniAndActivoTrue(String dni);
 }

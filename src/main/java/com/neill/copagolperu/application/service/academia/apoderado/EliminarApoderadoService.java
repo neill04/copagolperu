@@ -1,3 +1,4 @@
+/*
 package com.neill.copagolperu.application.service.academia.apoderado;
 
 import com.neill.copagolperu.domain.repository.ApoderadoRepository;
@@ -18,3 +19,4 @@ public class EliminarApoderadoService {
         apoderadoRepository.deleteById(id);
     }
 }
+*/

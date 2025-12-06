@@ -9,15 +9,10 @@ public record JugadorResponse(
         String apellidos,
         String nombres,
         LocalDate fechaNacimiento,
-        String fotoUrl,
         Boolean activo,
+        Integer numeroCamiseta,
 
         String nombreAcademia,
         UUID equipoId,
-        String categoriaEquipo,
-
-        UUID apoderadoId,
-        String dniApoderado,
-        String apellidosApoderado,
-        String nombresApoderado
+        String categoriaEquipo
 ) {}

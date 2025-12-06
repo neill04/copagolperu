@@ -1,3 +1,4 @@
+/*
 package com.neill.copagolperu.domain.model;
 
 import jakarta.persistence.*;
@@ -44,3 +45,4 @@ public class Apoderado {
     @Builder.Default
     private List<Jugador> jugadores = new ArrayList<>();
 }
+*/

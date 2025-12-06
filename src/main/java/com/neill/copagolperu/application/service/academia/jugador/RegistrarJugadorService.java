@@ -4,13 +4,10 @@ import com.neill.copagolperu.application.dto.request.JugadorRequest;
 import com.neill.copagolperu.application.dto.response.JugadorResponse;
 import com.neill.copagolperu.application.exception.EdadNoPermitidaException;
 import com.neill.copagolperu.application.exception.JugadorYaRegistradoException;
-import com.neill.copagolperu.application.mapper.ApoderadoMapper;
 import com.neill.copagolperu.application.mapper.JugadorMapper;
-import com.neill.copagolperu.domain.model.Apoderado;
 import com.neill.copagolperu.domain.model.Categoria;
 import com.neill.copagolperu.domain.model.Equipo;
 import com.neill.copagolperu.domain.model.Jugador;
-import com.neill.copagolperu.domain.repository.ApoderadoRepository;
 import com.neill.copagolperu.domain.repository.EquipoRepository;
 import com.neill.copagolperu.domain.repository.JugadorRepository;
 import org.springframework.stereotype.Service;
@@ -23,13 +20,13 @@ public class RegistrarJugadorService {
 
     private final JugadorRepository jugadorRepository;
     private final EquipoRepository equipoRepository;
-    private final ApoderadoRepository apoderadoRepository;
+    //private final ApoderadoRepository apoderadoRepository;
 
     public RegistrarJugadorService(JugadorRepository jugadorRepository,
-                                   ApoderadoRepository apoderadoRepository,
+                                   //ApoderadoRepository apoderadoRepository,
                                    EquipoRepository equipoRepository) {
         this.jugadorRepository = jugadorRepository;
-        this.apoderadoRepository = apoderadoRepository;
+        //this.apoderadoRepository = apoderadoRepository;
         this.equipoRepository = equipoRepository;
     }
 
@@ -39,8 +36,8 @@ public class RegistrarJugadorService {
 
         validarEdadParaCategoria(request.fechaNacimiento(), equipo.getCategoria(), request.dni());
 
+        /*
         Apoderado apoderado = null;
-
         if(request.apoderadoId() != null) {
             apoderado = apoderadoRepository.findById(request.apoderadoId())
                     .orElseThrow(() ->  new RuntimeException("Apoderado not found"));
@@ -50,6 +47,7 @@ public class RegistrarJugadorService {
         } else {
             throw new RuntimeException("Debe de enviar el apoderadoId o apoderado");
         }
+        */
 
         if (jugadorRepository.existsByDniAndActivoTrue(request.dni())) {
             throw new JugadorYaRegistradoException(request.dni());
@@ -58,7 +56,7 @@ public class RegistrarJugadorService {
         Jugador jugador = JugadorMapper.toEntity(request);
         jugador.setActivo(true);
         jugador.setEquipo(equipo);
-        jugador.setApoderado(apoderado);
+        //jugador.setApoderado(apoderado);
         jugador.setFechaRegistro(LocalDate.now());
         jugador.setFechaActualizacion(LocalDate.now());
 

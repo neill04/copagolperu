@@ -14,6 +14,7 @@ public class EquipoMapper {
                 equipo.getId(),
                 equipo.getCategoria(),
                 equipo.getColorCamiseta(),
+                equipo.getJugadores().size(),
                 equipo.getFechaRegistro(),
                 equipo.getFechaActualizacion(),
                 equipo.getActivo(),
@@ -25,13 +26,19 @@ public class EquipoMapper {
 
                 // Datos del Entrenador
                 equipo.getEntrenador().getId(),
+                equipo.getEntrenador().getDni(),
                 equipo.getEntrenador().getApellidos(),
                 equipo.getEntrenador().getNombres(),
+                equipo.getEntrenador().getTelefono(),
+                equipo.getEntrenador().getFotoUrl(),
 
                 // Datos del Delegado
                 equipo.getDelegado().getId(),
+                equipo.getDelegado().getDni(),
                 equipo.getDelegado().getApellidos(),
                 equipo.getDelegado().getNombres(),
+                equipo.getDelegado().getTelefono(),
+                equipo.getDelegado().getFotoUrl(),
 
                 // Datos de los jugadores
                 equipo.getJugadores().stream()

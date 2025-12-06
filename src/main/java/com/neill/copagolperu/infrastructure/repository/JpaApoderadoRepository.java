@@ -1,3 +1,4 @@
+/*
 package com.neill.copagolperu.infrastructure.repository;
 
 import com.neill.copagolperu.domain.model.Apoderado;
@@ -42,3 +43,4 @@ public class JpaApoderadoRepository implements ApoderadoRepository {
         jpa.deleteById(id);
     }
 }
+*/

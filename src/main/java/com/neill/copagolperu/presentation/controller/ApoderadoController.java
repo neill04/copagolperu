@@ -1,3 +1,4 @@
+/*
 package com.neill.copagolperu.presentation.controller;
 
 import com.neill.copagolperu.application.dto.request.ApoderadoRequest;
@@ -65,3 +66,4 @@ public class ApoderadoController {
         return ResponseEntity.ok(listarApoderadosPorEquipoService.listarApoderadosPorEquipo(equipoId));
     }
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package com.neill.copagolperu.application.mapper;
 
 import com.neill.copagolperu.application.dto.request.ApoderadoRequest;
@@ -43,3 +44,4 @@ public class ApoderadoMapper {
                 .build();
     }
 }
+*/

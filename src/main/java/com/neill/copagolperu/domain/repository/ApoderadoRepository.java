@@ -1,3 +1,4 @@
+/*
 package com.neill.copagolperu.domain.repository;
 
 import com.neill.copagolperu.domain.model.Apoderado;
@@ -13,3 +14,4 @@ public interface ApoderadoRepository {
     Optional<Apoderado> findByDni(String dni);
     void deleteById(UUID id);
 }
+*/

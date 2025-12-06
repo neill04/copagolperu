@@ -1,3 +1,4 @@
+/*
 package com.neill.copagolperu.infrastructure.repository;
 
 import com.neill.copagolperu.domain.model.Apoderado;
@@ -11,3 +12,4 @@ public interface SpringDataApoderadoRepository extends JpaRepository<Apoderado, 
     List<Apoderado> findDistinctByJugadores_Equipo_Id(UUID equipoId);
     Optional<Apoderado> findByDni(String dni);
 }
+*/

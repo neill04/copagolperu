@@ -24,9 +24,11 @@ public class Jugador {
     @JoinColumn(name = "id_equipo", nullable = false)
     private Equipo equipo;
 
+    /*
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_apoderado", nullable = false)
     private Apoderado apoderado;
+     */
 
     @Column(nullable = false, unique = true, length = 8)
     private String dni;
@@ -40,9 +42,6 @@ public class Jugador {
     @Column(name = "fecha_nacimiento", nullable = false)
     private LocalDate fechaNacimiento;
 
-    @Column(length = 255)
-    private String fotoUrl;
-
     @Column(name = "fecha_registro", nullable = false)
     private LocalDate fechaRegistro;
 
@@ -51,4 +50,7 @@ public class Jugador {
 
     @Column(nullable = false)
     private Boolean activo;
+
+    @Column(nullable = true)
+    private Integer numeroCamiseta;
 }

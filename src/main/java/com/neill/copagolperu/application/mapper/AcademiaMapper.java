@@ -8,6 +8,10 @@ public class AcademiaMapper {
 
     // de Entidad a AcademiaResponse
     public static AcademiaResponse toResponse(Academia academia) {
+        int cantidadEquipos = academia.getEquipos() == null
+                ? 0
+                : academia.getEquipos().size();
+
         return new AcademiaResponse(
                 academia.getId(),
                 academia.getNombreAcademia(),
@@ -19,7 +23,7 @@ public class AcademiaMapper {
                 academia.getFechaRegistro(),
                 academia.getFechaActualizacion(),
                 academia.getDistrito().getNombreDistrito(),
-                academia.getEquipos().size()
+                cantidadEquipos
         );
     }
 

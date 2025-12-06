@@ -30,6 +30,7 @@ public class AuthMapper {
                 user.getUsername(),
                 user.getRole().name(),
                 user.getAcademia() != null ? user.getAcademia().getId() : null,
+                user.getAcademia() != null ? user.getAcademia().getLogoUrl() : null,
                 user.getAcademia() != null ? user.getAcademia().getNombreAcademia() : null
         );
     }

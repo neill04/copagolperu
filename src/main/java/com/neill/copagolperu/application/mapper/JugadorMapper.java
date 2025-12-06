@@ -14,15 +14,11 @@ public class JugadorMapper {
                 jugador.getApellidos(),
                 jugador.getNombres(),
                 jugador.getFechaNacimiento(),
-                jugador.getFotoUrl(),
                 jugador.getActivo(),
+                jugador.getNumeroCamiseta(),
                 jugador.getEquipo().getAcademia().getNombreAcademia(),
                 jugador.getEquipo().getId(),
-                jugador.getEquipo().getCategoria().name(),
-                jugador.getApoderado().getId(),
-                jugador.getApoderado().getDni(),
-                jugador.getApoderado().getApellidos(),
-                jugador.getApoderado().getNombres()
+                jugador.getEquipo().getCategoria().name()
         );
     }
 
@@ -33,7 +29,7 @@ public class JugadorMapper {
                 .apellidos(request.apellidos())
                 .nombres(request.nombres())
                 .fechaNacimiento(request.fechaNacimiento())
-                .fotoUrl(request.fotoUrl())
+                .numeroCamiseta(request.numeroCamiseta())
                 .build();
     }
 }

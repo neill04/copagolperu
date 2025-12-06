@@ -10,6 +10,7 @@ public record EquipoResponse(
         UUID id,
         Categoria categoria,
         String colorCamiseta,
+        int totalJugadores,
         LocalDate fechaRegistro,
         LocalDate fechaActualizacion,
         Boolean activo,
@@ -19,12 +20,18 @@ public record EquipoResponse(
         String logoUrlAcademia,
 
         UUID entrenadorId,
+        String dniEntrenador,
         String apellidosEntrenador,
         String nombresEntrenador,
+        String telefonoEntrenador,
+        String fotoUrlEntrenador,
 
         UUID delegadoId,
+        String dniDelegado,
         String apellidosDelegado,
         String nombresDelegado,
+        String telefonoDelegado,
+        String fotoUrlDelegado,
 
         List<DatosJugador> jugadores
 ) {

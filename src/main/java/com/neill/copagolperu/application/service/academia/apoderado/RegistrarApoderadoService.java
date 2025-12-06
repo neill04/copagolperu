@@ -1,3 +1,4 @@
+/*
 package com.neill.copagolperu.application.service.academia.apoderado;
 
 import com.neill.copagolperu.application.dto.request.ApoderadoRequest;
@@ -24,3 +25,4 @@ public class RegistrarApoderadoService {
         return ApoderadoMapper.toResponse(newApoderado);
     }
 }
+*/

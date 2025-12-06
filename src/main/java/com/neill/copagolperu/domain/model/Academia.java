@@ -6,6 +6,7 @@ import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -51,5 +52,5 @@ public class Academia {
     private Distrito distrito;
 
     @OneToMany(mappedBy = "academia", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Equipo> equipos;
+    private List<Equipo> equipos = new ArrayList<>();
 }
