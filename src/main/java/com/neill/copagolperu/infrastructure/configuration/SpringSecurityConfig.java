@@ -97,7 +97,7 @@ public class SpringSecurityConfig {
                 "http://localhost:3000",      // React
                 "http://localhost:5173",      // Vite
                 "http://localhost:4200",      // Angular
-                "https://tu-dominio.com"      // Producción
+                "https://frontend-cgp.vercel.app"      // Producción
         ));
 
         configuration.setAllowedMethods(List.of(
