@@ -6,6 +6,8 @@ import com.neill.copagolperu.domain.model.Jugador;
 
 public class JugadorMapper {
 
+    private JugadorMapper() {}
+
     // de Entidad a JugadorResponse
     public static JugadorResponse toResponse(Jugador jugador) {
         return new JugadorResponse(
@@ -16,6 +18,7 @@ public class JugadorMapper {
                 jugador.getFechaNacimiento(),
                 jugador.getActivo(),
                 jugador.getNumeroCamiseta(),
+                jugador.getFotoUrl(),
                 jugador.getEquipo().getAcademia().getNombreAcademia(),
                 jugador.getEquipo().getId(),
                 jugador.getEquipo().getCategoria().name()
@@ -30,6 +33,7 @@ public class JugadorMapper {
                 .nombres(request.nombres())
                 .fechaNacimiento(request.fechaNacimiento())
                 .numeroCamiseta(request.numeroCamiseta())
+                .fotoUrl(request.fotoUrl())
                 .build();
     }
 }

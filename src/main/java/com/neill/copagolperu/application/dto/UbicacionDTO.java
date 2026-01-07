@@ -2,6 +2,8 @@ package com.neill.copagolperu.application.dto;
 
 public class UbicacionDTO {
 
+    private UbicacionDTO() {}
+
     public static class ProvinciaDTO {
         private Long id;
         private String nombre;
