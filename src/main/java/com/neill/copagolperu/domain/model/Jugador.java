@@ -53,4 +53,7 @@ public class Jugador {
 
     @Column(nullable = true)
     private Integer numeroCamiseta;
+
+    @Column(nullable = true, length = 255)
+    private String fotoUrl;
 }

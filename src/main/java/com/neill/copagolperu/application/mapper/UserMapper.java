@@ -16,6 +16,7 @@ public class UserMapper {
                 user.getId(),
                 user.getUsername(),
                 user.getRole() != null ? user.getRole().name() : null,
+                user.getActivo(),
                 user.getAcademia() != null ? user.getAcademia().getId() : null,
                 user.getAcademia() != null ? user.getAcademia().getLogoUrl() : null,
                 user.getAcademia() != null ? user.getAcademia().getNombreAcademia() : null

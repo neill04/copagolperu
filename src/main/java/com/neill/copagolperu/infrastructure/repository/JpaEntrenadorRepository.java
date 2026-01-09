@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.SimpleTimeZone;
 import java.util.UUID;
 
 @Repository
@@ -35,5 +36,10 @@ public class JpaEntrenadorRepository implements EntrenadorRepository {
     @Override
     public List<Entrenador> findAll() {
         return jpa.findAll();
+    }
+
+    @Override
+    public boolean existsByDni(String dni) {
+        return jpa.existsByDni(dni);
     }
 }

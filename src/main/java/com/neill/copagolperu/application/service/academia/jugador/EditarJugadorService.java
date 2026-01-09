@@ -28,6 +28,7 @@ public class EditarJugadorService {
         jugador.setNombres(request.nombres());
         jugador.setFechaNacimiento(request.fechaNacimiento());
         jugador.setNumeroCamiseta(request.numeroCamiseta());
+        jugador.setFotoUrl(request.fotoUrl());
         jugador.setFechaActualizacion(LocalDate.now());
 
         Jugador updatedJugador = jugadorRepository.save(jugador);

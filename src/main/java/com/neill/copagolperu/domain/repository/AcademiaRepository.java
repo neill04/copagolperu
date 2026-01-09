@@ -9,5 +9,7 @@ public interface AcademiaRepository {
     Academia save(Academia academia);
     Optional<Academia> findById(UUID id);
     List<Academia> findAll();
+    void deleteById(UUID id);
+    boolean existsByDniRepresentante(String dni);
 }
 

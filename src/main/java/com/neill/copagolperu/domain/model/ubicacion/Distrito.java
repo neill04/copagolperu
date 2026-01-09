@@ -1,7 +1,11 @@
 package com.neill.copagolperu.domain.model.ubicacion;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "distritos")
 public class Distrito {
@@ -17,28 +21,4 @@ public class Distrito {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_provincia", nullable = false)
     private Provincia provincia;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNombreDistrito() {
-        return nombreDistrito;
-    }
-
-    public void setNombreDistrito(String nombreDistrito) {
-        this.nombreDistrito = nombreDistrito;
-    }
-
-    public Provincia getProvincia() {
-        return provincia;
-    }
-
-    public void setProvincia(Provincia provincia) {
-        this.provincia = provincia;
-    }
 }

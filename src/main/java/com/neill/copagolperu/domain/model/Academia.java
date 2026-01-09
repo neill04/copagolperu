@@ -35,6 +35,9 @@ public class Academia {
     @Column(nullable = false, length = 9)
     private String telefonoRepresentante;
 
+    @Column(nullable = false)
+    private String liga;
+
     @Column(nullable = true, length = 100)
     private String logoUrl;
 

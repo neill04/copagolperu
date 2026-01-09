@@ -5,4 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
 
-public interface SpringDataAcademiaRepository extends JpaRepository<Academia, UUID> {}
+public interface SpringDataAcademiaRepository extends JpaRepository<Academia, UUID> {
+    boolean existsByDniRepresentante(String dni);
+}

@@ -1,11 +1,13 @@
 package com.neill.copagolperu.presentation.controller;
 
+import com.neill.copagolperu.application.dto.UserInfoDTO;
 import com.neill.copagolperu.application.dto.response.*;
 import com.neill.copagolperu.application.service.academia.delegado.ListarTodosLosDelegadosService;
 import com.neill.copagolperu.application.service.academia.entrenador.ListarTodosLosEntrenadoresService;
 import com.neill.copagolperu.application.service.academia.equipo.ListarTodosLosEquiposService;
 import com.neill.copagolperu.application.service.academia.jugador.ListarTodosLosJugadoresService;
 import com.neill.copagolperu.application.service.admin.ListarTodasLasAcademiasService;
+import com.neill.copagolperu.application.service.admin.ListarTodosLosUsuariosService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,17 +24,20 @@ public class AdminController {
     private final ListarTodosLosEntrenadoresService listarTodosLosEntrenadoresService;
     private final ListarTodosLosDelegadosService listarTodosLosDelegadosService;
     private final ListarTodosLosJugadoresService listarTodosLosJugadoresService;
+    private final ListarTodosLosUsuariosService listarTodosLosUsuariosService;
 
     public AdminController(ListarTodosLosEquiposService listarTodosLosEquiposService,
                            ListarTodosLosEntrenadoresService listarTodosLosEntrenadoresService,
                            ListarTodosLosDelegadosService listarTodosLosDelegadosService,
                            ListarTodosLosJugadoresService listarTodosLosJugadoresService,
-                           ListarTodasLasAcademiasService listarTodasLasAcademiasService) {
+                           ListarTodasLasAcademiasService listarTodasLasAcademiasService,
+                           ListarTodosLosUsuariosService listarTodosLosUsuariosService) {
         this.listarTodosLosEquiposService = listarTodosLosEquiposService;
         this.listarTodosLosEntrenadoresService = listarTodosLosEntrenadoresService;
         this.listarTodosLosDelegadosService = listarTodosLosDelegadosService;
         this.listarTodosLosJugadoresService = listarTodosLosJugadoresService;
         this.listarTodasLasAcademiasService = listarTodasLasAcademiasService;
+        this.listarTodosLosUsuariosService = listarTodosLosUsuariosService;
     }
 
     @PreAuthorize("hasAuthority('ADMINISTRADOR')")
@@ -63,5 +68,11 @@ public class AdminController {
     @GetMapping("/jugadores")
     public ResponseEntity<List<JugadorResponse>> listarTodosLosJugadores() {
         return ResponseEntity.ok(listarTodosLosJugadoresService.listarTodosLosJugadores());
+    }
+
+    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @GetMapping("/usuarios")
+    public ResponseEntity<List<UserInfoDTO>> listarTodosLosUsuarios() {
+        return ResponseEntity.ok(listarTodosLosUsuariosService.listarTodosLosUsuarios());
     }
 }

@@ -1,7 +1,11 @@
 package com.neill.copagolperu.domain.model.ubicacion;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "provincias")
 public class Provincia {
@@ -17,28 +21,4 @@ public class Provincia {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_departamento", nullable = false)
     private Departamento departamento;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNombreProvincia() {
-        return nombreProvincia;
-    }
-
-    public void setNombreProvincia(String nombreProvincia) {
-        this.nombreProvincia = nombreProvincia;
-    }
-
-    public Departamento getDepartamento() {
-        return departamento;
-    }
-
-    public void setDepartamento(Departamento departamento) {
-        this.departamento = departamento;
-    }
 }
