@@ -20,16 +20,19 @@ public class AcademiaController {
     private final EditarAcademiaService editarAcademiaService;
     private final BuscarAcademiaService buscarAcademiaService;
     private final ListarTodosLosJugadoresPorAcademiaService listarTodosLosJugadoresPorAcademiaService;
+    private final EliminarAcademiaService eliminarAcademiaService;
 
     public AcademiaController(
             RegistrarAcademiaService registrarAcademiaService,
             EditarAcademiaService editarAcademiaService,
             BuscarAcademiaService buscarAcademiaService,
-            ListarTodosLosJugadoresPorAcademiaService listarTodosLosJugadoresPorAcademiaService) {
+            ListarTodosLosJugadoresPorAcademiaService listarTodosLosJugadoresPorAcademiaService,
+            EliminarAcademiaService eliminarAcademiaService) {
         this.registrarAcademiaService = registrarAcademiaService;
         this.editarAcademiaService = editarAcademiaService;
         this.buscarAcademiaService = buscarAcademiaService;
         this.listarTodosLosJugadoresPorAcademiaService = listarTodosLosJugadoresPorAcademiaService;
+        this.eliminarAcademiaService = eliminarAcademiaService;
     }
 
     @PreAuthorize("hasAuthority('ADMINISTRADOR')")
@@ -61,5 +64,12 @@ public class AcademiaController {
     @GetMapping("/{id}/jugadores")
     public ResponseEntity<List<JugadorResponse>> listarTodosLosJugadoresPorAcademia(@PathVariable UUID id) {
         return ResponseEntity.ok(listarTodosLosJugadoresPorAcademiaService.listarTodosLosJugadoresPorAcademia(id));
+    }
+
+    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarAcademia(@PathVariable UUID id) {
+        eliminarAcademiaService.eliminarAcademia(id);
+        return ResponseEntity.noContent().build();
     }
 }

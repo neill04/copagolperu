@@ -8,4 +8,5 @@ import java.util.UUID;
 
 public interface SpringDataEntrenadorRepository extends JpaRepository<Entrenador, UUID> {
     List<Entrenador> findByAcademiaId(UUID academiaId);
+    boolean existsByDni(String dni);
 }

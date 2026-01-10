@@ -5,6 +5,8 @@ public record AcademiaRequest(
         String nombreRepresentante,
         String dniRepresentante,
         String telefonoRepresentante,
+        String liga,
         String logoUrl,
+        Boolean activo,
         Long distritoId
 ) {}

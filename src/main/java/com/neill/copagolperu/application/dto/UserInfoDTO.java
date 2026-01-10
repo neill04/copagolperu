@@ -6,6 +6,7 @@ public record UserInfoDTO(
         UUID id,
         String username,
         String role,
+        Boolean activo,
         UUID academiaId,
         String logoUrl,
         String nombreAcademia

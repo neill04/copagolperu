@@ -11,4 +11,5 @@ public interface EntrenadorRepository {
     Optional<Entrenador> findById(UUID id);
     List<Entrenador> findByAcademiaId(UUID idAcademia);
     List<Entrenador> findAll();
+    boolean existsByDni(String dni);
 }

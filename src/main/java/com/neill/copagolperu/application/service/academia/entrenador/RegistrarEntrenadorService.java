@@ -2,6 +2,7 @@ package com.neill.copagolperu.application.service.academia.entrenador;
 
 import com.neill.copagolperu.application.dto.request.EntrenadorRequest;
 import com.neill.copagolperu.application.dto.response.EntrenadorResponse;
+import com.neill.copagolperu.application.exception.DniYaRegistradoException;
 import com.neill.copagolperu.application.mapper.EntrenadorMapper;
 import com.neill.copagolperu.domain.model.Academia;
 import com.neill.copagolperu.domain.model.Entrenador;
@@ -25,14 +26,18 @@ public class RegistrarEntrenadorService {
     }
 
     public EntrenadorResponse registrarEntrenador(UUID academiaId, EntrenadorRequest request) {
-        Entrenador entrenador = EntrenadorMapper.toEntity(request);
-
         Academia academia = academiaRepository.findById(academiaId)
                 .orElseThrow(() -> new RuntimeException("Academia not found"));
-        entrenador.setAcademia(academia);
 
+        if (entrenadorRepository.existsByDni(request.dni())) {
+            throw new DniYaRegistradoException();
+        }
+
+        Entrenador entrenador = EntrenadorMapper.toEntity(request);
+        entrenador.setAcademia(academia);
         entrenador.setFechaRegistro(LocalDate.now());
         entrenador.setFechaActualizacion(LocalDate.now());
+
         Entrenador newEntrenador = entrenadorRepository.save(entrenador);
 
         return EntrenadorMapper.toResponse(newEntrenador);

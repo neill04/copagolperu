@@ -7,5 +7,6 @@ public record JugadorRequest(
         String apellidos,
         String nombres,
         LocalDate fechaNacimiento,
-        Integer numeroCamiseta
+        Integer numeroCamiseta,
+        String fotoUrl
 ) {}

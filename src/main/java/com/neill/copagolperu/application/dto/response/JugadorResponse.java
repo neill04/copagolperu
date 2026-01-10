@@ -11,6 +11,7 @@ public record JugadorResponse(
         LocalDate fechaNacimiento,
         Boolean activo,
         Integer numeroCamiseta,
+        String fotoUrl,
 
         String nombreAcademia,
         UUID equipoId,

@@ -2,6 +2,7 @@ package com.neill.copagolperu.application.service.admin;
 
 import com.neill.copagolperu.application.dto.request.AcademiaRequest;
 import com.neill.copagolperu.application.dto.response.AcademiaResponse;
+import com.neill.copagolperu.application.exception.DniYaRegistradoException;
 import com.neill.copagolperu.application.mapper.AcademiaMapper;
 import com.neill.copagolperu.domain.model.Academia;
 import com.neill.copagolperu.domain.model.ubicacion.Distrito;
@@ -26,6 +27,10 @@ public class RegistrarAcademiaService {
     public AcademiaResponse registrarAcademia(AcademiaRequest request) {
         Distrito distrito = distritoRepository.findById(request.distritoId())
                         .orElseThrow(() -> new RuntimeException("Distrito not found"));
+
+        if (academiaRepository.existsByDniRepresentante(request.dniRepresentante())) {
+            throw new DniYaRegistradoException();
+        }
 
         Academia academia = AcademiaMapper.toEntity(request);
         academia.setActivo(true);

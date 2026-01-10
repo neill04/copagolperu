@@ -9,6 +9,7 @@ public record  AcademiaResponse(
         String nombreRepresentante,
         String dniRepresentante,
         String telefonoRepresentante,
+        String liga,
         String logoUrl,
         Boolean activo,
         LocalDate fechaRegistro,

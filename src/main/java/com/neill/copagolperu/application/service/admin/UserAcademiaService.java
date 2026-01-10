@@ -1,5 +1,8 @@
 package com.neill.copagolperu.application.service.admin;
 
+import com.neill.copagolperu.application.exception.AcademiaAlreadyAssignedException;
+import com.neill.copagolperu.application.exception.AcademiaNotFoundException;
+import com.neill.copagolperu.application.exception.UserNotFoundException;
 import com.neill.copagolperu.domain.model.Academia;
 import com.neill.copagolperu.domain.model.Role;
 import com.neill.copagolperu.domain.model.User;
@@ -23,13 +26,13 @@ public class UserAcademiaService {
     @Transactional
     public User asignarAcademiaAUsuario(UUID userId, UUID academiaId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado"));
 
         Academia academia = academiaRepository.findById(academiaId)
-                .orElseThrow(() -> new RuntimeException("Academia no encontrada"));
+                .orElseThrow(() -> new AcademiaNotFoundException("Academia no encontrada"));
 
         if (userRepository.existsByAcademiaId(academiaId)) {
-            throw new RuntimeException("Esta academia ya tiene un encargado asignado.");
+            throw new AcademiaAlreadyAssignedException("Esta academia ya tiene un encargado asignado.");
         }
 
         user.setAcademia(academia);
@@ -41,7 +44,7 @@ public class UserAcademiaService {
     @Transactional
     public User removerAcademiaDeUsuario(UUID userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado"));
 
         user.setAcademia(null);
 

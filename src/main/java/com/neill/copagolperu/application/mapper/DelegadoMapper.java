@@ -6,6 +6,8 @@ import com.neill.copagolperu.domain.model.Delegado;
 
 public class DelegadoMapper {
 
+    private DelegadoMapper() {}
+
     // de Entidad a DelegadoResponse
     public static DelegadoResponse toResponse(Delegado delegado) {
         return new DelegadoResponse(

@@ -6,6 +6,8 @@ import com.neill.copagolperu.domain.model.Academia;
 
 public class AcademiaMapper {
 
+    private AcademiaMapper() {}
+
     // de Entidad a AcademiaResponse
     public static AcademiaResponse toResponse(Academia academia) {
         int cantidadEquipos = academia.getEquipos() == null
@@ -18,6 +20,7 @@ public class AcademiaMapper {
                 academia.getNombreRepresentante(),
                 academia.getDniRepresentante(),
                 academia.getTelefonoRepresentante(),
+                academia.getLiga(),
                 academia.getLogoUrl(),
                 academia.getActivo(),
                 academia.getFechaRegistro(),
@@ -34,7 +37,9 @@ public class AcademiaMapper {
                 .nombreRepresentante(request.nombreRepresentante())
                 .dniRepresentante(request.dniRepresentante())
                 .telefonoRepresentante(request.telefonoRepresentante())
+                .liga(request.liga())
                 .logoUrl(request.logoUrl())
+                .activo(request.activo())
                 .build();
     }
 

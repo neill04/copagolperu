@@ -2,6 +2,7 @@ package com.neill.copagolperu.application.service.admin;
 
 import com.neill.copagolperu.application.dto.request.AcademiaRequest;
 import com.neill.copagolperu.application.dto.response.AcademiaResponse;
+import com.neill.copagolperu.application.exception.AcademiaNotFoundException;
 import com.neill.copagolperu.application.mapper.AcademiaMapper;
 import com.neill.copagolperu.domain.model.Academia;
 import com.neill.copagolperu.domain.model.ubicacion.Distrito;
@@ -26,7 +27,7 @@ public class EditarAcademiaService {
 
     public AcademiaResponse editarAcademia(UUID id, AcademiaRequest request) {
         Academia academia = academiaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Academia not found"));
+                .orElseThrow(() -> new AcademiaNotFoundException("Academia not found"));
 
         if (request.distritoId() != null) {
             Distrito distrito = distritoRepository.findById(request.distritoId())
@@ -38,7 +39,9 @@ public class EditarAcademiaService {
         academia.setNombreRepresentante(request.nombreRepresentante());
         academia.setDniRepresentante(request.dniRepresentante());
         academia.setTelefonoRepresentante(request.telefonoRepresentante());
+        academia.setLiga(request.liga());
         academia.setLogoUrl(request.logoUrl());
+        academia.setActivo(request.activo());
         academia.setFechaActualizacion(LocalDate.now());
 
         Academia updatedAcademia = academiaRepository.save(academia);

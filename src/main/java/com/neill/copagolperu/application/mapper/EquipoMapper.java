@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 
 public class EquipoMapper {
 
+    private EquipoMapper() {}
+
     // de Entidad a EquipoResponse
     public static EquipoResponse toResponse(Equipo equipo) {
         return new EquipoResponse(

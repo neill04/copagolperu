@@ -6,6 +6,8 @@ import com.neill.copagolperu.domain.model.Entrenador;
 
 public class EntrenadorMapper {
 
+    private EntrenadorMapper() {}
+
     // de Entidad a EntrenadorResponse
     public static EntrenadorResponse toResponse(Entrenador entrenador) {
         return new EntrenadorResponse(

@@ -29,6 +29,9 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    private Boolean activo;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = true)
     private Role role;
@@ -59,7 +62,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
+        return activo;
     }
 
     public static UserBuilder builder() {
@@ -70,6 +73,7 @@ public class User implements UserDetails {
         private UUID id;
         private String username;
         private String password;
+        private Boolean activo;
         private Role role;
         private Academia academia;
 
@@ -90,6 +94,11 @@ public class User implements UserDetails {
             return this;
         }
 
+        public UserBuilder activo(Boolean activo) {
+            this.activo = activo;
+            return this;
+        }
+
         public UserBuilder role(Role role) {
             this.role = role;
             return this;
@@ -101,7 +110,7 @@ public class User implements UserDetails {
         }
 
         public User build() {
-            return new User(id, username, password, role, academia);
+            return new User(id, username, password, activo, role, academia);
         }
     }
 }

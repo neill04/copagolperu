@@ -55,6 +55,7 @@ public class AuthServiceImpl implements AuthService, UserDetailsService {
     public void createUser(final UserRequest request) {
         final User createUser = AuthMapper.fromDTO(request);
         createUser.setPassword(passwordEncoder.encode(request.password()));
+        createUser.setActivo(true);
         final User user = userRepository.save(createUser);
         logger.info("[USER] : User successfully created: {}", user.getUsername());
     }

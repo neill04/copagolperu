@@ -31,4 +31,14 @@ public class JpaAcademiaRepository implements AcademiaRepository {
     public List<Academia> findAll() {
         return jpa.findAll();
     }
+
+    @Override
+    public void deleteById(UUID id) {
+        jpa.deleteById(id);
+    }
+
+    @Override
+    public boolean existsByDniRepresentante(String dni) {
+        return jpa.existsByDniRepresentante(dni);
+    }
 }
