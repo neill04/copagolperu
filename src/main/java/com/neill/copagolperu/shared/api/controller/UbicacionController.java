@@ -1,10 +1,10 @@
-package com.neill.copagolperu.presentation.controller;
+package com.neill.copagolperu.shared.api.controller;
 
 import com.neill.copagolperu.application.dto.UbicacionDTO;
 import com.neill.copagolperu.application.service.admin.ubicacion.ListarDepartamentosService;
 import com.neill.copagolperu.application.service.admin.ubicacion.ListarDistritosService;
 import com.neill.copagolperu.application.service.admin.ubicacion.ListarProvinciasService;
-import com.neill.copagolperu.domain.model.ubicacion.Departamento;
+import com.neill.copagolperu.shared.domain.model.ubicacion.Departamento;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
