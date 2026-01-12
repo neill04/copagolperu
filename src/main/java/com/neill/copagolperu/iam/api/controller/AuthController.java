@@ -5,7 +5,7 @@ import com.neill.copagolperu.application.dto.request.UserRequest;
 import com.neill.copagolperu.application.dto.response.LoginResponse;
 import com.neill.copagolperu.domain.model.User;
 import com.neill.copagolperu.domain.service.AuthService;
-import com.neill.copagolperu.infrastructure.configuration.ApiConfig;
+import com.neill.copagolperu.shared.infrastructure.config.ApiConfig;
 import jakarta.validation.Valid;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
