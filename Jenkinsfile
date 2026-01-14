@@ -48,7 +48,7 @@ pipeline {
                         sh 'cat app.log'
                         throw e
                     } finally {
-                        sh 'pkill -f copagolperu || true'
+                        sh 'pkill -9 -f copagolperu || true'
                     }
                 }
             }
