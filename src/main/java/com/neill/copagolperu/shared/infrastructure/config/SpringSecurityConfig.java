@@ -92,12 +92,9 @@ public class SpringSecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        // ⭐ Orígenes permitidos (ajusta según tu frontend)
         configuration.setAllowedOrigins(List.of(
                 "http://localhost:3000",      // React
-                "http://localhost:5173",      // Vite
-                "http://localhost:4200",      // Angular
-                "https://frontend-cgp.vercel.app",      // Producción
+                "https://frontend-cgp.vercel.app",
                 "https://copagolperu.com",
                 "https://www.copagolperu.com"
         ));
