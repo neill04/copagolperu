@@ -78,6 +78,32 @@ pipeline {
             }
         }
 
+        stage('Security Tests (OWASP ZAP)') {
+            steps {
+                script {
+                    timeout(time: 15, unit: 'MINUTES') {
+                        echo 'Iniciando Pruebas de Seguridad con OWASP ZAP 2.16.0 (Local)...'
+                        sh 'nohup java -jar target/copagolperu-0.0.1-SNAPSHOT.jar --server.port=8082 --spring.datasource.url=jdbc:h2:mem:testdb --spring.datasource.username=sa --spring.datasource.password= --spring.datasource.driver-class-name=org.h2.Driver --spring.jpa.database-platform=org.hibernate.dialect.H2Dialect > zap_app.log 2>&1 & echo $! > zap_app.pid'
+                        sh 'sleep 40'
+
+                        try {
+                            echo 'Ejecutando Escaneo de ZAP...'
+                            sh '/var/jenkins_home/zap/zap.sh -cmd -port 8888 -quickurl http://localhost:8082/api/academias -quickout ${PWD}/zap_report.html -quickprogress'
+                            echo 'Escaneo de seguridad finalizado.'
+                        } catch (Exception e) {
+                            echo 'Error en ZAP. Revisa los logs:'
+                            sh 'cat zap_app.log'
+                            throw e
+                        } finally {
+                            echo 'Deteniendo la aplicación...'
+                            sh 'kill -9 $(cat zap_app.pid) || true'
+                            archiveArtifacts artifacts: 'zap_report.html', allowEmptyArchive: true
+                        }
+                    }
+                }
+            }
+        }
+
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv("${SONARQUBE_ENV}") {
