@@ -88,7 +88,7 @@ pipeline {
 
                         try {
                             echo 'Ejecutando Escaneo de ZAP...'
-                            sh '/var/jenkins_home/zap/zap.sh -cmd -quickurl http://localhost:8082/api/academias -quickout ${PWD}/zap_report.html -quickprogress'
+                            sh '/var/jenkins_home/zap/zap.sh -cmd -port 8888 -quickurl http://localhost:8082/api/academias -quickout ${PWD}/zap_report.html -quickprogress'
                             echo 'Escaneo de seguridad finalizado.'
                         } catch (Exception e) {
                             echo 'Error en ZAP. Revisa los logs:'
