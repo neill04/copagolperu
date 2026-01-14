@@ -54,6 +54,30 @@ pipeline {
             }
         }
 
+        stage('Performance Tests (JMeter)') {
+            steps {
+                script {
+                    timeout(time: 5, unit: 'MINUTES') {
+                        echo 'Iniciando Pruebas de Rendimiento con JMeter'
+                        sh 'if [ ! -d "apache-jmeter-5.6.3" ]; then wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.6.3.tgz && tar -xzf apache-jmeter-5.6.3.tgz; fi'
+                        sh 'nohup java -jar target/copagolperu-0.0.1-SNAPSHOT.jar --server.port=8082 --spring.datasource.url=jdbc:h2:mem:testdb --spring.datasource.username=sa --spring.datasource.password= --spring.datasource.driver-class-name=org.h2.Driver --spring.jpa.database-platform=org.hibernate.dialect.H2Dialect > jmeter_app.log 2>&1 & echo $! > jmeter_app.pid'
+                        sh 'sleep 30'
+
+                        try {
+                            sh './apache-jmeter-5.6.3/bin/jmeter -n -t jmeter/copagolperu_load_test.jmx -l jmeter_results.jtl'
+                            echo 'Pruebas de rendimiento finalizadas.'
+                        } catch (Exception e) {
+                            sh 'cat jmeter_app.log'
+                            throw e
+                        } finally {
+                            sh 'kill -9 $(cat jmeter_app.pid) || true'
+                            sh 'rm -rf apache-jmeter-5.6.3.tgz'
+                        }
+                    }
+                }
+            }
+        }
+
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv("${SONARQUBE_ENV}") {
