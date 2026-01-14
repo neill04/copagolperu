@@ -1,4 +1,4 @@
-package com.neill.copagolperu.domain.model.ubicacion;
+package com.neill.copagolperu.shared.domain.model.ubicacion;
 
 import jakarta.persistence.*;
 import lombok.Getter;

@@ -1,7 +1,6 @@
-package com.neill.copagolperu.application.service;
+package com.neill.copagolperu.iam.application.service;
 
-import com.neill.copagolperu.domain.model.User;
-import com.neill.copagolperu.domain.service.TokenService_;
+import com.neill.copagolperu.iam.domain.model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;

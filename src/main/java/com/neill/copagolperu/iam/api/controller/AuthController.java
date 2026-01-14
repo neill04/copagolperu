@@ -1,10 +1,10 @@
-package com.neill.copagolperu.presentation.controller;
+package com.neill.copagolperu.iam.api.controller;
 
-import com.neill.copagolperu.application.dto.request.LoginRequest;
-import com.neill.copagolperu.application.dto.request.UserRequest;
-import com.neill.copagolperu.application.dto.response.LoginResponse;
-import com.neill.copagolperu.domain.model.User;
-import com.neill.copagolperu.domain.service.AuthService;
+import com.neill.copagolperu.iam.application.dto.request.LoginRequest;
+import com.neill.copagolperu.iam.application.dto.request.UserRequest;
+import com.neill.copagolperu.iam.application.dto.response.LoginResponse;
+import com.neill.copagolperu.iam.domain.model.User;
+import com.neill.copagolperu.iam.application.service.AuthService;
 import com.neill.copagolperu.shared.infrastructure.config.ApiConfig;
 import jakarta.validation.Valid;
 import org.apache.logging.log4j.LogManager;

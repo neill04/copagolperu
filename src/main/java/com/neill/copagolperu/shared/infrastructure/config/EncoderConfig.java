@@ -1,4 +1,4 @@
-package com.neill.copagolperu.infrastructure.configuration;
+package com.neill.copagolperu.shared.infrastructure.config;
 
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
 import org.springframework.beans.factory.annotation.Value;

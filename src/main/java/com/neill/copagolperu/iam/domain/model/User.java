@@ -1,5 +1,6 @@
-package com.neill.copagolperu.domain.model;
+package com.neill.copagolperu.iam.domain.model;
 
+import com.neill.copagolperu.inscripciones.domain.model.Academia;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

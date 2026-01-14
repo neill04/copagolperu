@@ -1,6 +1,6 @@
-package com.neill.copagolperu.domain.repository;
+package com.neill.copagolperu.iam.domain.repository;
 
-import com.neill.copagolperu.domain.model.User;
+import com.neill.copagolperu.iam.domain.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

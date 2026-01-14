@@ -1,4 +1,4 @@
-package com.neill.copagolperu.application.exception;
+package com.neill.copagolperu.shared.infrastructure.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

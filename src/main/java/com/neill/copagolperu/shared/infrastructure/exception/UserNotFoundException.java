@@ -1,4 +1,4 @@
-package com.neill.copagolperu.application.exception;
+package com.neill.copagolperu.shared.infrastructure.exception;
 
 public class UserNotFoundException extends RuntimeException {
     public UserNotFoundException(String message) {

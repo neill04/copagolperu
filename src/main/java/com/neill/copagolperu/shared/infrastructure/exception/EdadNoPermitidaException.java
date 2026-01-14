@@ -1,6 +1,6 @@
-package com.neill.copagolperu.application.exception;
+package com.neill.copagolperu.shared.infrastructure.exception;
 
-import com.neill.copagolperu.domain.model.Categoria;
+import com.neill.copagolperu.inscripciones.domain.model.Categoria;
 import java.time.LocalDate;
 
 public class EdadNoPermitidaException extends RuntimeException {

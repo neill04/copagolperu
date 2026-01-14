@@ -1,13 +1,13 @@
-package com.neill.copagolperu.presentation.controller;
+package com.neill.copagolperu.iam.api.controller;
 
-import com.neill.copagolperu.application.dto.UserInfoDTO;
-import com.neill.copagolperu.application.dto.request.AsignarAcademiaRequest;
+import com.neill.copagolperu.iam.application.dto.response.UserInfoDTO;
+import com.neill.copagolperu.inscripciones.application.dto.request.AsignarAcademiaRequest;
 import com.neill.copagolperu.shared.infrastructure.exception.UserNotFoundException;
-import com.neill.copagolperu.application.mapper.UserMapper;
-import com.neill.copagolperu.application.service.admin.UserAcademiaService;
-import com.neill.copagolperu.domain.model.User;
-import com.neill.copagolperu.domain.repository.UserRepository;
-import com.neill.copagolperu.domain.service.AuthService;
+import com.neill.copagolperu.iam.application.mapper.UserMapper;
+import com.neill.copagolperu.inscripciones.application.service.academia.UserAcademiaService;
+import com.neill.copagolperu.iam.domain.model.User;
+import com.neill.copagolperu.iam.domain.repository.UserRepository;
+import com.neill.copagolperu.iam.application.service.AuthService;
 import com.neill.copagolperu.shared.infrastructure.config.ApiConfig;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

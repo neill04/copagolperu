@@ -1,4 +1,4 @@
-package com.neill.copagolperu.infrastructure.configuration;
+package com.neill.copagolperu.shared.infrastructure.config;
 
 public final class ApiConfig {
     private ApiConfig() {

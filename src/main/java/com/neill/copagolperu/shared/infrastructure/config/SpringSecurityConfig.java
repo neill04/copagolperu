@@ -1,6 +1,6 @@
-package com.neill.copagolperu.infrastructure.configuration;
+package com.neill.copagolperu.shared.infrastructure.config;
 
-import com.neill.copagolperu.infrastructure.filters.JwtAuthenticationFilter;
+import com.neill.copagolperu.iam.infrastructure.security.JwtAuthenticationFilter;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package com.neill.copagolperu.domain.model;
+package com.neill.copagolperu.iam.domain.model;
 
 import org.springframework.security.core.GrantedAuthority;
 

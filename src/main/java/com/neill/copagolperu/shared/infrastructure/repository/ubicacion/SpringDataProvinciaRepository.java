@@ -1,6 +1,6 @@
-package com.neill.copagolperu.infrastructure.repository.ubicacion;
+package com.neill.copagolperu.shared.infrastructure.repository.ubicacion;
 
-import com.neill.copagolperu.domain.model.ubicacion.Provincia;
+import com.neill.copagolperu.shared.domain.model.ubicacion.Provincia;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

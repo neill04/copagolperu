@@ -1,4 +1,4 @@
-package com.neill.copagolperu.application.exception;
+package com.neill.copagolperu.shared.infrastructure.exception;
 
 public class JugadorYaRegistradoException extends RuntimeException {
     public JugadorYaRegistradoException(String dni) {
