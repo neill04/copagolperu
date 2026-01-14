@@ -39,13 +39,16 @@ pipeline {
             steps {
                 script {
                     echo 'Iniciando Pruebas Funcionales con Postman'
-                    sh 'nohup java -jar target/copagolperu-0.0.1-SNAPSHOT.jar --server.port=8082 > app.log 2>&1 &'
+                    sh 'nohup java -jar target/copagolperu-0.0.1-SNAPSHOT.jar --server.port=8082 --spring.datasource.url=jdbc:h2:mem:testdb --spring.datasource.username=sa --spring.datasource.password= --spring.datasource.driver-class-name=org.h2.Driver --spring.jpa.database-platform=org.hibernate.dialect.H2Dialect > app.log 2>&1 &'
                     sh 'sleep 30'
 
                     try {
                         sh 'newman run postman/copagolperu_test.json'
+                    } catch (Exception e) {
+                        sh 'cat app.log'
+                        throw e
                     } finally {
-                        sh 'pkill -f copagolperu'
+                        sh 'pkill -f copagolperu || true'
                     }
                 }
             }
