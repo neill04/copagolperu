@@ -82,21 +82,21 @@ pipeline {
             steps {
                 script {
                     timeout(time: 15, unit: 'MINUTES') {
-                        echo 'Iniciando Pruebas de Seguridad con OWASP ZAP 2.15.0...'
-                        sh 'if [ ! -d "ZAP_2.15.0" ]; then wget https://github.com/zaproxy/zaproxy/releases/download/v2.15.0/ZAP_2.15.0_Linux.tar.gz && tar -xzf ZAP_2.15.0_Linux.tar.gz; fi'
+                        echo 'Iniciando Pruebas de Seguridad con OWASP ZAP 2.16.0 (Local)...'
                         sh 'nohup java -jar target/copagolperu-0.0.1-SNAPSHOT.jar --server.port=8082 --spring.datasource.url=jdbc:h2:mem:testdb --spring.datasource.username=sa --spring.datasource.password= --spring.datasource.driver-class-name=org.h2.Driver --spring.jpa.database-platform=org.hibernate.dialect.H2Dialect > zap_app.log 2>&1 & echo $! > zap_app.pid'
                         sh 'sleep 40'
 
                         try {
-                            echo '⚡ Ejecutando Escaneo de ZAP...'
-                            sh './ZAP_2.15.0/zap.sh -cmd -quickurl http://localhost:8082/api/academias -quickout ${PWD}/zap_report.html -quickprogress'
+                            echo 'Ejecutando Escaneo de ZAP...'
+                            sh '/var/jenkins_home/zap/zap.sh -cmd -quickurl http://localhost:8082/api/academias -quickout ${PWD}/zap_report.html -quickprogress'
                             echo 'Escaneo de seguridad finalizado.'
                         } catch (Exception e) {
-                            echo 'Error en ZAP. Revisa los logs.'
+                            echo 'Error en ZAP. Revisa los logs:'
+                            sh 'cat zap_app.log'
                             throw e
                         } finally {
+                            echo 'Deteniendo la aplicación...'
                             sh 'kill -9 $(cat zap_app.pid) || true'
-                            sh 'rm -f ZAP_2.15.0_Linux.tar.gz'
                             archiveArtifacts artifacts: 'zap_report.html', allowEmptyArchive: true
                         }
                     }
