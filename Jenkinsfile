@@ -39,7 +39,7 @@ pipeline {
             steps {
                 script {
                     echo 'Iniciando Pruebas Funcionales con Postman'
-                    sh 'nohup java -jar target/copagolperu-0.0.1-SNAPSHOT.jar --server.port=8082 --spring.datasource.url=jdbc:h2:mem:testdb --spring.datasource.username=sa --spring.datasource.password= --spring.datasource.driver-class-name=org.h2.Driver --spring.jpa.database-platform=org.hibernate.dialect.H2Dialect > app.log 2>&1 &'
+                    sh 'nohup java -jar target/copagolperu-0.0.1-SNAPSHOT.jar --server.port=8082 --spring.datasource.url=jdbc:h2:mem:testdb --spring.datasource.username=sa --spring.datasource.password= --spring.datasource.driver-class-name=org.h2.Driver --spring.jpa.database-platform=org.hibernate.dialect.H2Dialect > app.log 2>&1 & echo $! > app.pid'
                     sh 'sleep 30'
 
                     try {
@@ -48,7 +48,7 @@ pipeline {
                         sh 'cat app.log'
                         throw e
                     } finally {
-                        sh 'pkill -9 -f copagolperu || true'
+                        sh 'kill -9 $(cat app.pid) || true'
                     }
                 }
             }
