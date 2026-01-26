@@ -93,7 +93,7 @@ public class SpringSecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowedOrigins(List.of(
-                "http://localhost:3000",      // React
+                "http://localhost:5173",
                 "https://frontend-cgp.vercel.app",
                 "https://copagolperu.com",
                 "https://www.copagolperu.com"
