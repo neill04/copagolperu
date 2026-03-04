@@ -27,6 +27,18 @@ public enum Categoria {
         return edad;
     }
 
+    public Categoria getCategoriaInferior() {
+        int edadBuscada = this.edad - 1;
+
+        for (Categoria cat : Categoria.values()) {
+            if (cat.getEdad() == edadBuscada) {
+                return cat;
+            }
+        }
+
+        return null;
+    }
+
     public int[] getAniosNacimientoPermitidos() {
         int anioActual = LocalDate.now().getYear();
         int anioMenor = anioActual - this.edad;
@@ -45,5 +57,9 @@ public enum Categoria {
 
     public static int calcularEdad(LocalDate fechaNacimiento) {
         return Period.between(fechaNacimiento, LocalDate.now()).getYears();
+    }
+
+    public boolean esInmediataInferior(Categoria otra) {
+        return (this.edad - 1) == otra.getEdad();
     }
 }

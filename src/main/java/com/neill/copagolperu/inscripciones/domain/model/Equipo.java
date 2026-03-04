@@ -45,6 +45,10 @@ public class Equipo {
     @Builder.Default
     private List<Jugador> jugadores = new ArrayList<>();
 
+    @OneToMany(mappedBy = "equipoDestino", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<Refuerzo> refuerzos = new ArrayList<>();
+
     @Column(name = "fecha_registro", nullable = false)
     private LocalDate fechaRegistro;
 

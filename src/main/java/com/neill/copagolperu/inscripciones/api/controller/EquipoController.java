@@ -3,7 +3,9 @@ package com.neill.copagolperu.inscripciones.api.controller;
 import com.neill.copagolperu.inscripciones.application.dto.request.EquipoRequest;
 import com.neill.copagolperu.inscripciones.application.dto.response.EquipoResponse;
 import com.neill.copagolperu.inscripciones.application.service.equipo.*;
+import com.neill.copagolperu.inscripciones.application.service.jugador.BuscarJugadorService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,31 +19,37 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/academias/{academiaId}/equipos")
 public class EquipoController {
     private final RegistrarEquipoService registrarEquipoService;
     private final EditarEquipoService editarEquipoService;
+    private final RefuerzoService refuerzoService;
+    private final EliminarRefuerzoService eliminarRefuerzoService;
     private final BuscarEquipoService buscarEquipoService;
     private final ListarEquiposPorAcademiaService listarEquiposPorAcademiaService;
     private final GenerarPlanillaService generarPlanillaService;
-
-    public EquipoController(RegistrarEquipoService registrarEquipoService,
-                            EditarEquipoService editarEquipoService,
-                            BuscarEquipoService buscarEquipoService,
-                            ListarEquiposPorAcademiaService listarEquiposPorAcademiaService,
-                            GenerarPlanillaService generarPlanillaService) {
-        this.registrarEquipoService = registrarEquipoService;
-        this.editarEquipoService = editarEquipoService;
-        this.buscarEquipoService = buscarEquipoService;
-        this.listarEquiposPorAcademiaService = listarEquiposPorAcademiaService;
-        this.generarPlanillaService = generarPlanillaService;
-    }
 
     @PreAuthorize("@academiaSecurity.canAccessAcademy(authentication, #academiaId)")
     @PostMapping
     public ResponseEntity<EquipoResponse> registrarEquipo(@PathVariable UUID academiaId, @Valid @RequestBody EquipoRequest request) {
         EquipoResponse newEquipo = registrarEquipoService.registrarEquipo(academiaId, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(newEquipo);
+    }
+
+    @PreAuthorize("@academiaSecurity.canAccessAcademy(authentication, #academiaId)")
+    @PostMapping("/{equipoDestinoId}/refuerzos/{jugadorId}")
+    public ResponseEntity<?> registrarRefuerzo(@PathVariable UUID academiaId, @PathVariable UUID equipoDestinoId, @PathVariable UUID jugadorId) {
+        refuerzoService.registrarRefuerzo(jugadorId, equipoDestinoId);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body("Jugador registrado como refuerzo exitosamente.");
+    }
+
+    @PreAuthorize("@academiaSecurity.canAccessAcademy(authentication, #academiaId)")
+    @DeleteMapping("/{equipoDestinoId}/refuerzos/{jugadorId}")
+    public ResponseEntity<Void> eliminarRefuerzo(@PathVariable UUID academiaId, @PathVariable UUID equipoDestinoId, @PathVariable UUID jugadorId) {
+        eliminarRefuerzoService.eliminarRefuerzo(equipoDestinoId, jugadorId);
+        return ResponseEntity.noContent().build();
     }
 
     @PreAuthorize("@academiaSecurity.canAccessAcademy(authentication, #academiaId)")

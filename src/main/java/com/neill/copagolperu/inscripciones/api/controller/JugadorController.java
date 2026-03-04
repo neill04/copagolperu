@@ -2,6 +2,7 @@ package com.neill.copagolperu.inscripciones.api.controller;
 
 import com.neill.copagolperu.inscripciones.application.dto.request.JugadorRequest;
 import com.neill.copagolperu.inscripciones.application.dto.response.JugadorResponse;
+import com.neill.copagolperu.inscripciones.application.service.equipo.ListarJugadoresRefuerzoService;
 import com.neill.copagolperu.inscripciones.application.service.jugador.BuscarJugadorService;
 import com.neill.copagolperu.inscripciones.application.service.jugador.EditarJugadorService;
 import com.neill.copagolperu.inscripciones.application.service.jugador.ListarJugadoresPorEquipoService;
@@ -22,15 +23,18 @@ public class JugadorController {
     private final EditarJugadorService editarJugadorService;
     private final BuscarJugadorService buscarJugadorService;
     private final ListarJugadoresPorEquipoService listarJugadoresPorEquipoService;
+    private final ListarJugadoresRefuerzoService listarJugadoresRefuerzoService;
 
     public JugadorController(RegistrarJugadorService registrarJugadorService,
                              EditarJugadorService editarJugadorService,
                              BuscarJugadorService buscarJugadorService,
-                             ListarJugadoresPorEquipoService listarJugadoresPorEquipoService) {
+                             ListarJugadoresPorEquipoService listarJugadoresPorEquipoService,
+                             ListarJugadoresRefuerzoService listarJugadoresRefuerzoService) {
         this.registrarJugadorService = registrarJugadorService;
         this.editarJugadorService = editarJugadorService;
         this.buscarJugadorService = buscarJugadorService;
         this.listarJugadoresPorEquipoService = listarJugadoresPorEquipoService;
+        this.listarJugadoresRefuerzoService = listarJugadoresRefuerzoService;
     }
 
     @PreAuthorize("@academiaSecurity.canAccessAcademy(authentication, #academiaId)")
@@ -62,5 +66,13 @@ public class JugadorController {
     @GetMapping
     public ResponseEntity<List<JugadorResponse>> listarJugadoresPorEquipo(@PathVariable UUID academiaId, @PathVariable UUID equipoId) {
         return ResponseEntity.ok(listarJugadoresPorEquipoService.listarJugadoresPorEquipo(equipoId));
+    }
+
+    @PreAuthorize("@academiaSecurity.canAccessAcademy(authentication, #academiaId)")
+    @GetMapping("/refuerzos")
+    public ResponseEntity<List<JugadorResponse>> listarJugadoresRefuerzo(
+            @PathVariable UUID academiaId,
+            @PathVariable UUID equipoId) {
+        return ResponseEntity.ok(listarJugadoresRefuerzoService.listarJugadoresRefuerzo(equipoId));
     }
 }
