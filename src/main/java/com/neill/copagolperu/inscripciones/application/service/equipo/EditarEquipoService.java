@@ -9,25 +9,20 @@ import com.neill.copagolperu.inscripciones.domain.model.Equipo;
 import com.neill.copagolperu.inscripciones.domain.repository.DelegadoRepository;
 import com.neill.copagolperu.inscripciones.domain.repository.EntrenadorRepository;
 import com.neill.copagolperu.inscripciones.domain.repository.EquipoRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class EditarEquipoService {
 
     private final EquipoRepository equipoRepository;
     private final EntrenadorRepository entrenadorRepository;
     private final DelegadoRepository delegadoRepository;
-
-    public EditarEquipoService(EquipoRepository equipoRepository,
-                               EntrenadorRepository entrenadorRepository,
-                               DelegadoRepository delegadoRepository) {
-        this.equipoRepository = equipoRepository;
-        this.entrenadorRepository = entrenadorRepository;
-        this.delegadoRepository = delegadoRepository;
-    }
+    private final EquipoMapper equipoMapper;
 
     public EquipoResponse editarEquipo(UUID id, EquipoRequest request) {
         Equipo equipo = equipoRepository.findById(id)
@@ -47,6 +42,6 @@ public class EditarEquipoService {
 
         Equipo updatedEquipo = equipoRepository.save(equipo);
 
-        return EquipoMapper.toResponse(updatedEquipo);
+        return equipoMapper.toResponse(updatedEquipo);
     }
 }

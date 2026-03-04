@@ -3,6 +3,7 @@ package com.neill.copagolperu.inscripciones.application.service.equipo;
 import com.neill.copagolperu.inscripciones.domain.model.Equipo;
 import com.neill.copagolperu.inscripciones.domain.model.Jugador;
 import com.neill.copagolperu.inscripciones.domain.repository.EquipoRepository;
+import com.neill.copagolperu.inscripciones.infrastructure.repository.RefuerzoRepository;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.*;
@@ -13,6 +14,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -20,6 +23,9 @@ public class GenerarPlanillaService {
 
     @Autowired
     private EquipoRepository equipoRepository;
+
+    @Autowired
+    private RefuerzoRepository refuerzoRepository;
 
     public byte[] generarPlanillaExcel(UUID equipoId) throws IOException {
         Equipo equipo = equipoRepository.findById(equipoId)
@@ -324,6 +330,13 @@ public class GenerarPlanillaService {
         golesCell.setCellStyle(createVerticalStyle(workbook));
         sheet.addMergedRegion(new CellRangeAddress(12, 15, 25, 25));
 
+        List<Jugador> todosLosJugadores = new ArrayList<>(equipo.getJugadores());
+
+        refuerzoRepository.findByEquipoDestinoId(equipoId).forEach(refuerzo -> {
+            todosLosJugadores.add(refuerzo.getJugador());
+        });
+
+        todosLosJugadores.sort((j1, j2) -> j1.getApellidos().compareToIgnoreCase(j2.getApellidos()));
 
         int totalJugadoresHabilitados = 0;
 
@@ -336,8 +349,8 @@ public class GenerarPlanillaService {
             orden_Cell.setCellValue(String.format("%02d", i + 1));
             orden_Cell.setCellStyle(createHoraStyle(workbook));
 
-            if (i < equipo.getJugadores().size()) {
-                Jugador jugador = equipo.getJugadores().get(i);
+            if (i < todosLosJugadores.size()) {
+                Jugador jugador = todosLosJugadores.get(i);
 
                 // Columna B - CAMISETA
                 Cell camiseta_Cell = row.createCell(1);

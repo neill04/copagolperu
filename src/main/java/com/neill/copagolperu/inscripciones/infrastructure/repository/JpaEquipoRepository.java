@@ -1,5 +1,6 @@
 package com.neill.copagolperu.inscripciones.infrastructure.repository;
 
+import com.neill.copagolperu.inscripciones.domain.model.Categoria;
 import com.neill.copagolperu.inscripciones.domain.model.Equipo;
 import com.neill.copagolperu.inscripciones.domain.repository.EquipoRepository;
 import org.springframework.stereotype.Repository;
@@ -25,6 +26,11 @@ public class JpaEquipoRepository implements EquipoRepository {
     @Override
     public Optional<Equipo> findById(UUID id) {
         return jpa.findById(id);
+    }
+
+    @Override
+    public Optional<Equipo> findByAcademiaIdAndCategoria(UUID idAcademia, Categoria categoria) {
+        return jpa.findByAcademiaIdAndCategoria(idAcademia, categoria);
     }
 
     @Override

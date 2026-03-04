@@ -11,6 +11,7 @@ import com.neill.copagolperu.inscripciones.domain.repository.EquipoRepository;
 import com.neill.copagolperu.inscripciones.domain.repository.AcademiaRepository;
 import com.neill.copagolperu.inscripciones.domain.repository.EntrenadorRepository;
 import com.neill.copagolperu.inscripciones.domain.repository.DelegadoRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -18,26 +19,17 @@ import java.util.UUID;
 
 
 @Service
+@RequiredArgsConstructor
 public class RegistrarEquipoService {
 
     private final EquipoRepository equipoRepository;
     private final AcademiaRepository academiaRepository;
     private final EntrenadorRepository entrenadorRepository;
     private final DelegadoRepository delegadoRepository;
-
-    public RegistrarEquipoService(EquipoRepository equipoRepository,
-                                  AcademiaRepository academiaRepository,
-                                  EntrenadorRepository entrenadorRepository,
-                                  DelegadoRepository delegadoRepository) {
-        this.equipoRepository = equipoRepository;
-        this.academiaRepository = academiaRepository;
-        this.entrenadorRepository = entrenadorRepository;
-        this.delegadoRepository = delegadoRepository;
-    }
-
+    private final EquipoMapper equipoMapper;
 
     public EquipoResponse registrarEquipo(UUID academiaId, EquipoRequest request) {
-        Equipo equipo = EquipoMapper.toEntity(request);
+        Equipo equipo = equipoMapper.toEntity(request);
 
         Academia academia = academiaRepository.findById(academiaId)
                 .orElseThrow(() -> new RuntimeException("Academia not found"));
@@ -56,6 +48,6 @@ public class RegistrarEquipoService {
         equipo.setFechaActualizacion(LocalDate.now());
         Equipo newEquipo = equipoRepository.save(equipo);
 
-        return EquipoMapper.toResponse(newEquipo);
+        return equipoMapper.toResponse(newEquipo);
     }
 }
