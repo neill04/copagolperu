@@ -3,10 +3,8 @@ package com.neill.copagolperu.inscripciones.api.controller;
 import com.neill.copagolperu.inscripciones.application.dto.request.JugadorRequest;
 import com.neill.copagolperu.inscripciones.application.dto.response.JugadorResponse;
 import com.neill.copagolperu.inscripciones.application.service.equipo.ListarJugadoresRefuerzoService;
-import com.neill.copagolperu.inscripciones.application.service.jugador.BuscarJugadorService;
-import com.neill.copagolperu.inscripciones.application.service.jugador.EditarJugadorService;
-import com.neill.copagolperu.inscripciones.application.service.jugador.ListarJugadoresPorEquipoService;
-import com.neill.copagolperu.inscripciones.application.service.jugador.RegistrarJugadorService;
+import com.neill.copagolperu.inscripciones.application.service.jugador.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,6 +15,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/academias/{academiaId}/equipos/{equipoId}/jugadores")
 public class JugadorController {
     private final RegistrarJugadorService registrarJugadorService;
@@ -24,18 +23,7 @@ public class JugadorController {
     private final BuscarJugadorService buscarJugadorService;
     private final ListarJugadoresPorEquipoService listarJugadoresPorEquipoService;
     private final ListarJugadoresRefuerzoService listarJugadoresRefuerzoService;
-
-    public JugadorController(RegistrarJugadorService registrarJugadorService,
-                             EditarJugadorService editarJugadorService,
-                             BuscarJugadorService buscarJugadorService,
-                             ListarJugadoresPorEquipoService listarJugadoresPorEquipoService,
-                             ListarJugadoresRefuerzoService listarJugadoresRefuerzoService) {
-        this.registrarJugadorService = registrarJugadorService;
-        this.editarJugadorService = editarJugadorService;
-        this.buscarJugadorService = buscarJugadorService;
-        this.listarJugadoresPorEquipoService = listarJugadoresPorEquipoService;
-        this.listarJugadoresRefuerzoService = listarJugadoresRefuerzoService;
-    }
+    private final EliminarJugadorService eliminarJugadorService;
 
     @PreAuthorize("@academiaSecurity.canAccessAcademy(authentication, #academiaId)")
     @PostMapping
@@ -74,5 +62,12 @@ public class JugadorController {
             @PathVariable UUID academiaId,
             @PathVariable UUID equipoId) {
         return ResponseEntity.ok(listarJugadoresRefuerzoService.listarJugadoresRefuerzo(equipoId));
+    }
+
+    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarJugador(@PathVariable UUID id) {
+        eliminarJugadorService.eliminarJugador(id);
+        return ResponseEntity.noContent().build();
     }
 }

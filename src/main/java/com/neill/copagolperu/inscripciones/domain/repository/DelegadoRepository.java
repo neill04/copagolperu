@@ -11,4 +11,5 @@ public interface DelegadoRepository {
     Optional<Delegado> findById(UUID id);
     List<Delegado> findByAcademiaId(UUID academiaId);
     List<Delegado> findAll();
+    void deleteById(UUID id);
 }

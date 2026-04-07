@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.UUID;
 
-
 @Service
 @RequiredArgsConstructor
 public class RegistrarEquipoService {
@@ -35,17 +34,26 @@ public class RegistrarEquipoService {
                 .orElseThrow(() -> new RuntimeException("Academia not found"));
         equipo.setAcademia(academia);
 
-        Entrenador entrenador = entrenadorRepository.findById(request.entrenadorId())
-                .orElseThrow(() -> new RuntimeException("Entrenador not found"));
-        equipo.setEntrenador(entrenador);
+        if (request.entrenadorId() != null) {
+            Entrenador entrenador = entrenadorRepository.findById(request.entrenadorId())
+                    .orElseThrow(() -> new RuntimeException("Entrenador not found"));
+            equipo.setEntrenador(entrenador);
+        } else {
+            equipo.setEntrenador(null);
+        }
 
-        Delegado delegado = delegadoRepository.findById(request.delegadoId())
-                .orElseThrow(() -> new RuntimeException("Delegado not found"));
-        equipo.setDelegado(delegado);
+        if (request.delegadoId() != null) {
+            Delegado delegado = delegadoRepository.findById(request.delegadoId())
+                    .orElseThrow(() -> new RuntimeException("Delegado not found"));
+            equipo.setDelegado(delegado);
+        } else {
+            equipo.setDelegado(null);
+        }
 
         equipo.setActivo(true);
         equipo.setFechaRegistro(LocalDate.now());
         equipo.setFechaActualizacion(LocalDate.now());
+
         Equipo newEquipo = equipoRepository.save(equipo);
 
         return equipoMapper.toResponse(newEquipo);

@@ -3,7 +3,7 @@ package com.neill.copagolperu.inscripciones.application.service.jugador;
 import com.neill.copagolperu.inscripciones.application.dto.response.JugadorResponse;
 import com.neill.copagolperu.inscripciones.application.mapper.JugadorMapper;
 import com.neill.copagolperu.inscripciones.domain.repository.JugadorRepository;
-import com.neill.copagolperu.inscripciones.infrastructure.repository.RefuerzoRepository;
+import com.neill.copagolperu.inscripciones.domain.repository.RefuerzoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
