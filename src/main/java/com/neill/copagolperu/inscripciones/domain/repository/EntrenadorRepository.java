@@ -12,4 +12,5 @@ public interface EntrenadorRepository {
     List<Entrenador> findByAcademiaId(UUID idAcademia);
     List<Entrenador> findAll();
     boolean existsByDni(String dni);
+    void deleteById(UUID id);
 }

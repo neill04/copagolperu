@@ -13,4 +13,6 @@ public interface JugadorRepository {
     List<Jugador> findByEquipo_Academia_Id(UUID academiaId);
     List<Jugador> findAll();
     boolean existsByDniAndActivoTrue(String dni);
+    void deleteById(UUID id);
+    boolean existsById(UUID id);
 }

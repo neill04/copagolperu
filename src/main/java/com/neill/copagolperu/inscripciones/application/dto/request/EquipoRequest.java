@@ -8,6 +8,6 @@ import java.util.UUID;
 public record EquipoRequest(
         Categoria categoria,
         String colorCamiseta,
-        @NotNull UUID entrenadorId,
-        @NotNull UUID delegadoId
+        UUID entrenadorId,
+        UUID delegadoId
 ) {}

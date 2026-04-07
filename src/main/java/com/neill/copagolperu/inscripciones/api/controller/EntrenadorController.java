@@ -2,10 +2,8 @@ package com.neill.copagolperu.inscripciones.api.controller;
 
 import com.neill.copagolperu.inscripciones.application.dto.request.EntrenadorRequest;
 import com.neill.copagolperu.inscripciones.application.dto.response.EntrenadorResponse;
-import com.neill.copagolperu.inscripciones.application.service.entrenador.BuscarEntrenadorService;
-import com.neill.copagolperu.inscripciones.application.service.entrenador.EditarEntrenadorService;
-import com.neill.copagolperu.inscripciones.application.service.entrenador.ListarEntrenadoresPorAcademiaService;
-import com.neill.copagolperu.inscripciones.application.service.entrenador.RegistrarEntrenadorService;
+import com.neill.copagolperu.inscripciones.application.service.entrenador.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,22 +14,14 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/academias/{academiaId}/entrenadores")
 public class EntrenadorController {
     private final RegistrarEntrenadorService registrarEntrenadorService;
     private final EditarEntrenadorService editarEntrenadorService;
     private final BuscarEntrenadorService buscarEntrenadorService;
     private final ListarEntrenadoresPorAcademiaService listarEntrenadoresPorAcademiaService;
-
-    public EntrenadorController(RegistrarEntrenadorService registrarEntrenadorService,
-                                EditarEntrenadorService editarEntrenadorService,
-                                BuscarEntrenadorService buscarEntrenadorService,
-                                ListarEntrenadoresPorAcademiaService listarEntrenadoresPorAcademiaService) {
-        this.registrarEntrenadorService = registrarEntrenadorService;
-        this.editarEntrenadorService = editarEntrenadorService;
-        this.buscarEntrenadorService = buscarEntrenadorService;
-        this.listarEntrenadoresPorAcademiaService = listarEntrenadoresPorAcademiaService;
-    }
+    private final EliminarEntrenadorService eliminarEntrenadorService;
 
     @PreAuthorize("@academiaSecurity.canAccessAcademy(authentication, #academiaId)")
     @PostMapping
@@ -62,5 +52,12 @@ public class EntrenadorController {
     @GetMapping
     public ResponseEntity<List<EntrenadorResponse>> listarEntrenadoresPorAcademia(@PathVariable UUID academiaId) {
         return ResponseEntity.ok(listarEntrenadoresPorAcademiaService.listarEntrenadoresPorAcademia(academiaId));
+    }
+
+    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarEntrenador(@PathVariable UUID id) {
+        eliminarEntrenadorService.eliminarEntrenador(id);
+        return ResponseEntity.noContent().build();
     }
 }

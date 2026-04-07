@@ -3,7 +3,7 @@ package com.neill.copagolperu.inscripciones.application.service.equipo;
 import com.neill.copagolperu.inscripciones.domain.model.Equipo;
 import com.neill.copagolperu.inscripciones.domain.model.Jugador;
 import com.neill.copagolperu.inscripciones.domain.repository.EquipoRepository;
-import com.neill.copagolperu.inscripciones.infrastructure.repository.RefuerzoRepository;
+import com.neill.copagolperu.inscripciones.domain.repository.RefuerzoRepository;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.*;

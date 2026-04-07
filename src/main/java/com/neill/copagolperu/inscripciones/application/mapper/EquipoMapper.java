@@ -3,7 +3,7 @@ package com.neill.copagolperu.inscripciones.application.mapper;
 import com.neill.copagolperu.inscripciones.application.dto.request.EquipoRequest;
 import com.neill.copagolperu.inscripciones.application.dto.response.EquipoResponse;
 import com.neill.copagolperu.inscripciones.domain.model.Equipo;
-import com.neill.copagolperu.inscripciones.infrastructure.repository.RefuerzoRepository;
+import com.neill.copagolperu.inscripciones.domain.repository.RefuerzoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -47,20 +47,20 @@ public class EquipoMapper {
                 equipo.getAcademia().getLogoUrl(),
 
                 // Datos del Entrenador
-                equipo.getEntrenador().getId(),
-                equipo.getEntrenador().getDni(),
-                equipo.getEntrenador().getApellidos(),
-                equipo.getEntrenador().getNombres(),
-                equipo.getEntrenador().getTelefono(),
-                equipo.getEntrenador().getFotoUrl(),
+                equipo.getEntrenador() != null ? equipo.getEntrenador().getId() : null,
+                equipo.getEntrenador() != null ? equipo.getEntrenador().getDni() : null,
+                equipo.getEntrenador() != null ? equipo.getEntrenador().getApellidos() : null,
+                equipo.getEntrenador() != null ? equipo.getEntrenador().getNombres() : null,
+                equipo.getEntrenador() != null ? equipo.getEntrenador().getTelefono() : null,
+                equipo.getEntrenador() != null ? equipo.getEntrenador().getFotoUrl() : null,
 
                 // Datos del Delegado
-                equipo.getDelegado().getId(),
-                equipo.getDelegado().getDni(),
-                equipo.getDelegado().getApellidos(),
-                equipo.getDelegado().getNombres(),
-                equipo.getDelegado().getTelefono(),
-                equipo.getDelegado().getFotoUrl(),
+                equipo.getDelegado() != null ? equipo.getDelegado().getId() : null,
+                equipo.getDelegado() != null ? equipo.getDelegado().getDni() : null,
+                equipo.getDelegado() != null ? equipo.getDelegado().getApellidos() : null,
+                equipo.getDelegado() != null ? equipo.getDelegado().getNombres() : null,
+                equipo.getDelegado() != null ? equipo.getDelegado().getTelefono() : null,
+                equipo.getDelegado() != null ? equipo.getDelegado().getFotoUrl() : null,
 
                 // Datos de los jugadores
                 equipo.getJugadores().stream()
