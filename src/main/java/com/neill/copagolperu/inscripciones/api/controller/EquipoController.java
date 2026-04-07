@@ -29,6 +29,9 @@ public class EquipoController {
     private final BuscarEquipoService buscarEquipoService;
     private final ListarEquiposPorAcademiaService listarEquiposPorAcademiaService;
     private final GenerarPlanillaService generarPlanillaService;
+    private final EliminarEquipoService eliminarEquipoService;
+    private final AsignarEntrenadorEquipoService asignarEntrenadorEquipoService;
+    private final AsignarDelegadoEquipoService asignarDelegadoEquipoService;
 
     @PreAuthorize("@academiaSecurity.canAccessAcademy(authentication, #academiaId)")
     @PostMapping
@@ -85,5 +88,36 @@ public class EquipoController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"planilla_equipo.xlsx\"")
                 .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
                 .body(excelBytes);
+    }
+
+    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarEquipo(@PathVariable UUID id) {
+        eliminarEquipoService.eliminarEquipo(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @PatchMapping("/{id}/entrenadores/{entrenadorId}")
+    public ResponseEntity<Void> asignarEntrenadorAlEquipo(
+            @PathVariable UUID academiaId,
+            @PathVariable UUID id,
+            @PathVariable UUID entrenadorId) {
+
+        asignarEntrenadorEquipoService.asignarEntrenador(id, entrenadorId);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @PatchMapping("/{id}/delegados/{delegadoId}")
+    public ResponseEntity<Void> asignarDelegadoAlEquipo(
+            @PathVariable UUID academiaId,
+            @PathVariable UUID id,
+            @PathVariable UUID delegadoId) {
+
+        asignarDelegadoEquipoService.asignarDelegado(id, delegadoId);
+
+        return ResponseEntity.noContent().build();
     }
 }

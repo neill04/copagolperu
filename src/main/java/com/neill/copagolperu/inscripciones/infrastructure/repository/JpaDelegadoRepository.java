@@ -36,4 +36,9 @@ public class JpaDelegadoRepository implements DelegadoRepository {
     public List<Delegado> findAll() {
         return jpa.findAll();
     }
+
+    @Override
+    public void deleteById(UUID id) {
+        jpa.deleteById(id);
+    }
 }

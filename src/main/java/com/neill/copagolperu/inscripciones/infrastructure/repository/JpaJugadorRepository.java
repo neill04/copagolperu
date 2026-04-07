@@ -46,4 +46,14 @@ public class JpaJugadorRepository implements JugadorRepository {
     public boolean existsByDniAndActivoTrue(String dni) {
         return jpa.existsByDniAndActivoTrue(dni);
     }
+
+    @Override
+    public void deleteById(UUID id) {
+        jpa.deleteById(id);
+    }
+
+    @Override
+    public boolean existsById(UUID id) {
+        return jpa.existsById(id);
+    }
 }

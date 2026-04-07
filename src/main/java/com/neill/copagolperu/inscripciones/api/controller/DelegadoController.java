@@ -2,10 +2,8 @@ package com.neill.copagolperu.inscripciones.api.controller;
 
 import com.neill.copagolperu.inscripciones.application.dto.request.DelegadoRequest;
 import com.neill.copagolperu.inscripciones.application.dto.response.DelegadoResponse;
-import com.neill.copagolperu.inscripciones.application.service.delegado.BuscarDelegadoService;
-import com.neill.copagolperu.inscripciones.application.service.delegado.EditarDelegadoService;
-import com.neill.copagolperu.inscripciones.application.service.delegado.ListarDelegadosPorAcademiaService;
-import com.neill.copagolperu.inscripciones.application.service.delegado.RegistrarDelegadoService;
+import com.neill.copagolperu.inscripciones.application.service.delegado.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -15,22 +13,14 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/academias/{academiaId}/delegados")
 public class DelegadoController {
     private final RegistrarDelegadoService registrarDelegadoService;
     private final EditarDelegadoService editarDelegadoService;
     private final BuscarDelegadoService buscarDelegadoService;
     private final ListarDelegadosPorAcademiaService listarDelegadosPorAcademiaService;
-
-    public DelegadoController(RegistrarDelegadoService registrarDelegadoService,
-                              EditarDelegadoService editarDelegadoService,
-                              BuscarDelegadoService buscarDelegadoService,
-                              ListarDelegadosPorAcademiaService listarDelegadosPorAcademiaService) {
-        this.registrarDelegadoService = registrarDelegadoService;
-        this.editarDelegadoService = editarDelegadoService;
-        this.buscarDelegadoService = buscarDelegadoService;
-        this.listarDelegadosPorAcademiaService = listarDelegadosPorAcademiaService;
-    }
+    private final EliminarDelegadoService eliminarDelegadoService;
 
     @PreAuthorize("@academiaSecurity.canAccessAcademy(authentication, #academiaId)")
     @PostMapping
@@ -61,5 +51,12 @@ public class DelegadoController {
     @GetMapping
     public ResponseEntity<List<DelegadoResponse>> listarDelegadosPorAcademia(@PathVariable UUID academiaId) {
         return ResponseEntity.ok(listarDelegadosPorAcademiaService.listarDelegadosPorAcademia(academiaId));
+    }
+
+    @PreAuthorize("hasAuthority('ADMINISTRADOR')")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarDelegado(@PathVariable UUID id) {
+        eliminarDelegadoService.eliminarDelegado(id);
+        return ResponseEntity.noContent().build();
     }
 }

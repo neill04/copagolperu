@@ -6,7 +6,7 @@ import com.neill.copagolperu.inscripciones.domain.model.Jugador;
 import com.neill.copagolperu.inscripciones.domain.model.Refuerzo;
 import com.neill.copagolperu.inscripciones.domain.repository.EquipoRepository;
 import com.neill.copagolperu.inscripciones.domain.repository.JugadorRepository;
-import com.neill.copagolperu.inscripciones.infrastructure.repository.RefuerzoRepository;
+import com.neill.copagolperu.inscripciones.domain.repository.RefuerzoRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

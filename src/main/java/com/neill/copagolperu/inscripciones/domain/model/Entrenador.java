@@ -37,13 +37,13 @@ public class Entrenador {
     @Column(length = 50)
     private String licencia;
 
-    @Column(name = "fecha_nacimiento", nullable = false)
+    @Column(name = "fecha_nacimiento")
     private LocalDate fechaNacimiento;
 
-    @Column(nullable = false, length = 9)
+    @Column(length = 9)
     private String telefono;
 
-    @Column(nullable = false, length = 100)
+    @Column(length = 100)
     private String email;
 
     @Column(length = 255)

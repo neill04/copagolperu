@@ -41,4 +41,9 @@ public class JpaEntrenadorRepository implements EntrenadorRepository {
     public boolean existsByDni(String dni) {
         return jpa.existsByDni(dni);
     }
+
+    @Override
+    public void deleteById(UUID id) {
+        jpa.deleteById(id);
+    }
 }

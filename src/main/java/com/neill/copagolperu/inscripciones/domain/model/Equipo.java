@@ -30,7 +30,7 @@ public class Equipo {
     @Column(nullable = false, length = 10)
     private Categoria categoria;
 
-    @Column(nullable = false, length = 10)
+    @Column(length = 10)
     private String colorCamiseta;
 
     @ManyToOne(fetch = FetchType.LAZY)

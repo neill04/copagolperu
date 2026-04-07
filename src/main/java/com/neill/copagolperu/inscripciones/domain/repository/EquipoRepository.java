@@ -13,4 +13,7 @@ public interface EquipoRepository {
     Optional<Equipo> findByAcademiaIdAndCategoria(UUID academiaId, Categoria categoria);
     List<Equipo> findByAcademiaId(UUID idAcademia);
     List<Equipo> findAll();
+    void deleteById(UUID id);
+    List<Equipo> findByDelegadoId(UUID delegadoId);
+    List<Equipo> findByEntrenadorId(UUID entrenadorId);
 }

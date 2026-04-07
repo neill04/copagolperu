@@ -12,4 +12,6 @@ public interface SpringDataEquipoRepository extends JpaRepository<Equipo, UUID> 
     Optional<Equipo> findByAcademiaIdAndCategoria(UUID academiaId, Categoria categoria);
     List<Equipo> findByAcademiaId(UUID academiaId);
     long countByAcademiaId(UUID academiaId);
+    List<Equipo> findByDelegadoId(UUID delegadoId);
+    List<Equipo> findByEntrenadorId(UUID entrenadorId);
 }

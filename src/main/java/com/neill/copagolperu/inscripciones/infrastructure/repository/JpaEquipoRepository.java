@@ -42,4 +42,17 @@ public class JpaEquipoRepository implements EquipoRepository {
     public List<Equipo> findAll() {
         return jpa.findAll();
     }
+
+    @Override
+    public void deleteById(UUID id) {
+        jpa.deleteById(id);
+    }
+
+    @Override
+    public List<Equipo> findByDelegadoId(UUID id) {
+        return jpa.findByDelegadoId(id);
+    }
+
+    @Override
+    public List<Equipo> findByEntrenadorId(UUID id) { return jpa.findByEntrenadorId(id); }
 }
